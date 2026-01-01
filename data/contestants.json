@@ -4,6 +4,77 @@
     "name": "Angel Lekala",
     "status": "Semi-Finalist",
     "image": "angel_lekala.jpg",
-    "votes": 0
+    "votes": 150,
+    "bio": "A passionate and driven young woman who believes in empowering others and making a positive impact in her community. Angel is dedicated to inspiring young women to embrace their unique qualities and chase their dreams fearlessly.",
+    "age": 22,
+    "location": "Pretoria",
+    "gallery": [
+      "angel_lekala_1.jpg",
+      "angel_lekala_2.jpg",
+      "angel_lekala_3.jpg",
+      "angel_lekala_4.jpg",
+      "angel_lekala_5.jpg",
+      "angel_lekala_6.jpg"
+    ]
+  },
+  {
+    "id": "M23",
+    "name": "Beauty Molefe",
+    "status": "Semi-Finalist",
+    "image": "beauty_molefe.jpg",
+    "votes": 320,
+    "bio": "An aspiring model and advocate for youth education. Beauty believes in the power of knowledge and self-expression.",
+    "age": 20,
+    "location": "Pretoria",
+    "gallery": [
+      "beauty_molefe_1.jpg",
+      "beauty_molefe_2.jpg",
+      "beauty_molefe_3.jpg"
+    ]
+  },
+  {
+    "id": "M24",
+    "name": "Candice Nkosi",
+    "status": "Semi-Finalist",
+    "image": "candice_nkosi.jpg",
+    "votes": 450,
+    "bio": "A university student studying social work, passionate about community development and women's empowerment.",
+    "age": 23,
+    "location": "Pretoria",
+    "gallery": [
+      "candice_nkosi_1.jpg",
+      "candice_nkosi_2.jpg",
+      "candice_nkosi_3.jpg",
+      "candice_nkosi_4.jpg"
+    ]
+  },
+  {
+    "id": "M25",
+    "name": "Dineo Maluleke",
+    "status": "Semi-Finalist",
+    "image": "dineo_maluleke.jpg",
+    "votes": 280,
+    "bio": "An entrepreneur and fitness enthusiast who promotes healthy living and positive body image among young women.",
+    "age": 24,
+    "location": "Pretoria",
+    "gallery": [
+      "dineo_maluleke_1.jpg",
+      "dineo_maluleke_2.jpg"
+    ]
+  },
+  {
+    "id": "M26",
+    "name": "Esther Khumalo",
+    "status": "Semi-Finalist",
+    "image": "esther_khumalo.jpg",
+    "votes": 95,
+    "bio": "A talented singer and performer who uses her voice to inspire hope and spread joy in her community.",
+    "age": 21,
+    "location": "Pretoria",
+    "gallery": [
+      "esther_khumalo_1.jpg",
+      "esther_khumalo_2.jpg",
+      "esther_khumalo_3.jpg"
+    ]
   }
 ]
