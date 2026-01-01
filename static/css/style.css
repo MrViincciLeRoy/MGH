@@ -3556,3 +3556,346 @@ section {
         grid-template-columns: 1fr;
     }
 }
+/* Home Page Enhancements - Quick Links & Top Contestants */
+
+/* Quick Links Section */
+.quick-links-section {
+    padding: 4rem 0;
+    background: var(--dark-bg);
+}
+
+.quick-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.quick-link-card {
+    background: var(--card-bg);
+    padding: 2.5rem 2rem;
+    border-radius: 15px;
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.quick-link-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.quick-link-card:hover::before {
+    opacity: 1;
+}
+
+.quick-link-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--gold);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+}
+
+.link-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    display: block;
+    transition: transform 0.3s;
+}
+
+.quick-link-card:hover .link-icon {
+    transform: scale(1.2) rotateY(360deg);
+}
+
+.quick-link-card h3 {
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+    font-size: 1.4rem;
+}
+
+.quick-link-card p {
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Top Contestants Section */
+.top-contestants-section {
+    padding: 5rem 0;
+    background: var(--black);
+}
+
+.top-contestants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.top-contestant-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    transition: all 0.3s;
+    position: relative;
+}
+
+.top-contestant-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--gold);
+    box-shadow: 0 20px 50px rgba(212, 175, 55, 0.4);
+}
+
+.rank-badge-home {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--gold);
+    color: var(--black);
+    padding: 0.7rem 1.2rem;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    z-index: 10;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+}
+
+.contestant-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-small-home {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* View All Section */
+.view-all-section {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+/* Gallery Button on Vote Page */
+.showcase-actions-mini {
+    margin-bottom: 1.5rem;
+}
+
+.btn-gallery {
+    width: 100%;
+    text-align: center;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+}
+
+/* Mobile Nav Toggle Button */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 1001;
+}
+
+.nav-toggle span {
+    width: 25px;
+    height: 3px;
+    background: var(--gold);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Mobile Navigation Overlay */
+.nav-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.nav-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Enhanced Responsive Design for Home Page */
+@media (max-width: 992px) {
+    .quick-links-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .top-contestants-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .quick-links-section {
+        padding: 3rem 0;
+    }
+    
+    .quick-links-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .quick-link-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .link-icon {
+        font-size: 3rem;
+    }
+    
+    .top-contestants-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .nav-toggle {
+        display: flex;
+    }
+    
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        max-width: 300px;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 5rem 2rem 2rem;
+        gap: 2rem;
+        transition: right 0.3s ease;
+        border-left: 2px solid var(--gold);
+        box-shadow: -5px 0 20px rgba(212, 175, 55, 0.2);
+        z-index: 1000;
+    }
+    
+    .nav-menu.active {
+        right: 0;
+    }
+    
+    .nav-menu li {
+        width: 100%;
+        text-align: left;
+    }
+    
+    .nav-menu a {
+        display: block;
+        width: 100%;
+        padding: 0.8rem 0;
+        font-size: 1.1rem;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+}
+
+@media (max-width: 480px) {
+    .quick-link-card h3 {
+        font-size: 1.2rem;
+    }
+    
+    .link-icon {
+        font-size: 2.5rem;
+    }
+    
+    .rank-badge-home {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .contestant-actions {
+        flex-direction: column;
+    }
+    
+    .btn-small-home {
+        width: 100%;
+    }
+}
+
+/* Animate on scroll for home page elements */
+.quick-link-card,
+.top-contestant-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.quick-link-card:nth-child(1) { animation-delay: 0.1s; }
+.quick-link-card:nth-child(2) { animation-delay: 0.2s; }
+.quick-link-card:nth-child(3) { animation-delay: 0.3s; }
+.quick-link-card:nth-child(4) { animation-delay: 0.4s; }
+
+.top-contestant-card:nth-child(1) { animation-delay: 0.1s; }
+.top-contestant-card:nth-child(2) { animation-delay: 0.2s; }
+.top-contestant-card:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Featured Quick Link Highlight */
+.quick-link-card:first-child {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, var(--card-bg) 100%);
+}
+
+/* Hover effects enhancement */
+.quick-link-card:hover {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, var(--card-bg) 100%);
+}
+
+/* Top Contestants Special Styling */
+.top-contestant-card:first-child {
+    border-color: #FFD700;
+}
+
+.top-contestant-card:first-child:hover {
+    box-shadow: 0 20px 50px rgba(255, 215, 0, 0.4);
+}
+
+.top-contestant-card:nth-child(2) {
+    border-color: #C0C0C0;
+}
+
+.top-contestant-card:nth-child(3) {
+    border-color: #CD7F32;
+}
