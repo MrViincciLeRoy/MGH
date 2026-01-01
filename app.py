@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from datetime import datetime
 import json
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your-secret-key-here'
+app.config['SECRET_KEY'] = 'your-secret-key-here-change-in-production'
 
 # Database file paths
 CONTESTANTS_FILE = 'data/contestants.json'
@@ -103,6 +103,74 @@ def vote_page(contestant_id):
                          contestant=contestant,
                          vote_packages=VOTE_PACKAGES,
                          bank_details=BANK_DETAILS,
+                         contact_info=CONTACT_INFO)
+
+@app.route('/checkout/<contestant_id>/<package_id>')
+def checkout(contestant_id, package_id):
+    contestants = load_contestants()
+    contestant = next((c for c in contestants if c['id'] == contestant_id), None)
+    
+    if not contestant or package_id not in VOTE_PACKAGES:
+        return redirect(url_for('index'))
+    
+    package = VOTE_PACKAGES[package_id]
+    
+    # Store checkout info in session
+    session['checkout'] = {
+        'contestant_id': contestant_id,
+        'contestant_name': contestant['name'],
+        'package_id': package_id,
+        'amount': package['price'],
+        'votes': package['votes']
+    }
+    
+    return render_template('checkout.html',
+                         contestant=contestant,
+                         package=package,
+                         package_id=package_id,
+                         bank_details=BANK_DETAILS,
+                         contact_info=CONTACT_INFO)
+
+@app.route('/process-payment', methods=['POST'])
+def process_payment():
+    # This is a mock payment processor
+    # In production, you'd integrate with a real payment gateway
+    
+    if 'checkout' not in session:
+        return redirect(url_for('index'))
+    
+    checkout_data = session['checkout']
+    payment_method = request.form.get('payment_method', 'bank_transfer')
+    
+    # Generate a mock transaction ID
+    import random
+    transaction_id = f"TXN{random.randint(100000, 999999)}"
+    
+    # Store transaction info
+    session['transaction'] = {
+        'transaction_id': transaction_id,
+        'contestant_id': checkout_data['contestant_id'],
+        'contestant_name': checkout_data['contestant_name'],
+        'amount': checkout_data['amount'],
+        'votes': checkout_data['votes'],
+        'payment_method': payment_method,
+        'timestamp': datetime.now().isoformat()
+    }
+    
+    # Clear checkout from session
+    session.pop('checkout', None)
+    
+    return redirect(url_for('success'))
+
+@app.route('/success')
+def success():
+    if 'transaction' not in session:
+        return redirect(url_for('index'))
+    
+    transaction = session['transaction']
+    
+    return render_template('success.html',
+                         transaction=transaction,
                          contact_info=CONTACT_INFO)
 
 @app.route('/how-to-vote')
