@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Miss Gorgeous Hearts Pretoria 2026</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/new-pages-styles.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -21,14 +22,21 @@
                     <span>Miss Gorgeous Hearts</span>
                 </div>
             </div>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <ul class="nav-menu">
                 <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
                 <li><a href="{{ url_for('gallery') }}">Contestants</a></li>
+                <li><a href="{{ url_for('leaderboard') }}">Leaderboard</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
                 <li><a href="{{ url_for('how_to_vote') }}">How to Vote</a></li>
-                <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
     </nav>
+    <div class="nav-overlay"></div>
 
     <header class="hero">
         <div class="hero-overlay"></div>
@@ -52,6 +60,35 @@
         </div>
     </header>
 
+    <!-- Quick Links Section -->
+    <section class="quick-links-section">
+        <div class="container">
+            <h2 class="section-title">Quick Access</h2>
+            <div class="quick-links-grid">
+                <a href="{{ url_for('leaderboard') }}" class="quick-link-card">
+                    <div class="link-icon">🏆</div>
+                    <h3>Leaderboard</h3>
+                    <p>See current rankings and top contestants</p>
+                </a>
+                <a href="{{ url_for('gallery') }}" class="quick-link-card">
+                    <div class="link-icon">👑</div>
+                    <h3>Contestants</h3>
+                    <p>View all contestants and their profiles</p>
+                </a>
+                <a href="{{ url_for('about') }}" class="quick-link-card">
+                    <div class="link-icon">ℹ️</div>
+                    <h3>About Us</h3>
+                    <p>Learn about Miss Gorgeous Hearts</p>
+                </a>
+                <a href="{{ url_for('how_to_vote') }}" class="quick-link-card">
+                    <div class="link-icon">🗳️</div>
+                    <h3>How to Vote</h3>
+                    <p>Step-by-step voting guide</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <section class="about-section">
         <div class="container">
             <h2 class="section-title">About the Pageant</h2>
@@ -74,9 +111,62 @@
                         <p>Open to young queens from diverse backgrounds</p>
                     </div>
                 </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="{{ url_for('about') }}" class="btn btn-secondary">Learn More About Us</a>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- Top Contestants Preview -->
+    {% if top_contestants and top_contestants|length > 0 %}
+    <section class="top-contestants-section">
+        <div class="container">
+            <h2 class="section-title">Current Top Contestants</h2>
+            <p class="section-subtitle">Leading the race to the crown</p>
+            
+            <div class="top-contestants-grid">
+                {% for contestant in top_contestants %}
+                <div class="top-contestant-card">
+                    <div class="rank-badge-home">
+                        {% if loop.index == 1 %}
+                        🥇 #{{ loop.index }}
+                        {% elif loop.index == 2 %}
+                        🥈 #{{ loop.index }}
+                        {% elif loop.index == 3 %}
+                        🥉 #{{ loop.index }}
+                        {% endif %}
+                    </div>
+                    <div class="contestant-image-wrapper">
+                        <img src="{{ url_for('static', filename='images/' + contestant.image) }}" 
+                             alt="{{ contestant.name }}"
+                             onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
+                        <div class="contestant-status">{{ contestant.status }}</div>
+                    </div>
+                    <div class="contestant-info">
+                        <h3 class="contestant-name">{{ contestant.name }}</h3>
+                        <p class="contestant-id">Reference: {{ contestant.id }}</p>
+                        <div class="contestant-votes">
+                            <span class="votes-count">{{ "{:,}".format(contestant.votes) }}</span>
+                            <span class="votes-label">Total Votes</span>
+                        </div>
+                        <div class="contestant-actions">
+                            <a href="{{ url_for('contestant_profile', contestant_id=contestant.id) }}" 
+                               class="btn btn-secondary btn-small-home">View Profile</a>
+                            <a href="{{ url_for('vote_page', contestant_id=contestant.id) }}" 
+                               class="btn btn-primary btn-small-home">Vote Now</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="view-all-section">
+                <a href="{{ url_for('leaderboard') }}" class="btn btn-primary btn-large">View Full Leaderboard</a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
 
     <section class="contestants-section">
         <div class="container">
@@ -84,7 +174,7 @@
             <p class="section-subtitle">Support your favorite contestant by casting your vote</p>
             
             <div class="contestants-grid">
-                {% for contestant in contestants %}
+                {% for contestant in contestants[:6] %}
                 <div class="contestant-card">
                     <div class="contestant-image-wrapper">
                         <img src="{{ url_for('static', filename='images/' + contestant.image) }}" 
@@ -96,13 +186,17 @@
                         <h3 class="contestant-name">{{ contestant.name }}</h3>
                         <p class="contestant-id">Reference: {{ contestant.id }}</p>
                         <div class="contestant-votes">
-                            <span class="votes-count">{{ contestant.votes }}</span>
+                            <span class="votes-count">{{ "{:,}".format(contestant.votes) }}</span>
                             <span class="votes-label">Total Votes</span>
                         </div>
                         <a href="{{ url_for('vote_page', contestant_id=contestant.id) }}" class="btn btn-secondary">Vote for Me!</a>
                     </div>
                 </div>
                 {% endfor %}
+            </div>
+            
+            <div class="view-all-section">
+                <a href="{{ url_for('gallery') }}" class="btn btn-primary btn-large">View All Contestants</a>
             </div>
         </div>
     </section>
@@ -166,6 +260,9 @@
                         <div class="step-number">4</div>
                         <p>Votes will be added</p>
                     </div>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="{{ url_for('how_to_vote') }}" class="btn btn-secondary">Detailed Voting Guide</a>
                 </div>
             </div>
         </div>

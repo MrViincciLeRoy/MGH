@@ -24,8 +24,9 @@
             <ul class="nav-menu">
                 <li><a href="{{ url_for('index') }}">Home</a></li>
                 <li><a href="{{ url_for('gallery') }}">Contestants</a></li>
+                <li><a href="{{ url_for('leaderboard') }}">Leaderboard</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
                 <li><a href="{{ url_for('how_to_vote') }}">How to Vote</a></li>
-                <li><a href="{{ url_for('index') }}#contact">Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -43,6 +44,14 @@
                     <div class="showcase-info">
                         <h1 class="contestant-showcase-name">{{ contestant.name }}</h1>
                         <p class="contestant-showcase-ref">Reference: {{ contestant.id }}</p>
+                        
+                        <div class="showcase-actions-mini">
+                            <a href="{{ url_for('contestant_profile', contestant_id=contestant.id) }}" 
+                               class="btn btn-secondary btn-gallery">
+                               📸 View Full Profile & Gallery
+                            </a>
+                        </div>
+                        
                         <div class="showcase-votes">
                             <div class="votes-number">{{ contestant.votes }}</div>
                             <div class="votes-label">Total Votes</div>
