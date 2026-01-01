@@ -1,5 +1,55 @@
 // Gallery filter functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu toggle
+    const navToggle = document.createElement('button');
+    navToggle.className = 'nav-toggle';
+    navToggle.innerHTML = '<span></span><span></span><span></span>';
+    navToggle.setAttribute('aria-label', 'Toggle navigation');
+    
+    const navbar = document.querySelector('.navbar .container');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (navbar && navMenu && window.innerWidth <= 768) {
+        navbar.insertBefore(navToggle, navMenu);
+        
+        navToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        // Close menu when clicking on a link
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!navToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+    
+    // Re-add toggle button on window resize
+    window.addEventListener('resize', function() {
+        const existingToggle = document.querySelector('.nav-toggle');
+        if (window.innerWidth <= 768 && !existingToggle) {
+            navbar.insertBefore(navToggle, navMenu);
+        } else if (window.innerWidth > 768 && existingToggle) {
+            existingToggle.remove();
+            navMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+    
     // Gallery filtering
     const filterButtons = document.querySelectorAll('.filter-btn');
     const galleryCards = document.querySelectorAll('.gallery-card');
@@ -83,16 +133,6 @@ document.addEventListener('DOMContentLoaded', function() {
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
-    
-    // Mobile menu toggle (if needed in future)
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    if (navToggle) {
-        navToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-        });
-    }
     
     // Copy to clipboard functionality for bank details
     const bankValues = document.querySelectorAll('.detail-value, .bank-value');
