@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ contestant.name }} - Miss Gorgeous Hearts Pretoria 2026</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="sparkles"></div>
+    
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="logo">
+                    <div class="logo-crown">👑</div>
+                    <span>Miss Gorgeous Hearts</span>
+                </div>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('gallery') }}">Contestants</a></li>
+                <li><a href="{{ url_for('leaderboard') }}">Leaderboard</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('how_to_vote') }}">How to Vote</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="nav-overlay"></div>
+
+    <!-- Profile Header -->
+    <section class="profile-header">
+        <div class="container">
+            <div class="profile-header-grid">
+                <div class="profile-image-main">
+                    <img src="{{ url_for('static', filename='images/' + contestant.image) }}" 
+                         alt="{{ contestant.name }}"
+                         onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
+                    <div class="profile-status-badge">{{ contestant.status }}</div>
+                </div>
+                
+                <div class="profile-info">
+                    <h1 class="profile-name">{{ contestant.name }}</h1>
+                    <p class="profile-reference">{{ contestant.id }}</p>
+                    
+                    <div class="profile-meta">
+                        {% if contestant.age %}
+                        <div class="meta-item">
+                            <span class="meta-icon">🎂</span>
+                            <span>{{ contestant.age }} years old</span>
+                        </div>
+                        {% endif %}
+                        {% if contestant.location %}
+                        <div class="meta-item">
+                            <span class="meta-icon">📍</span>
+                            <span>{{ contestant.location }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="profile-bio">
+                        <h3>About Me</h3>
+                        <p>{{ contestant.bio if contestant.bio else 'A passionate contestant competing for Miss Gorgeous Hearts 2026.' }}</p>
+                    </div>
+                    
+                    <div class="profile-votes-section">
+                        <div class="votes-display">
+                            <span class="votes-number-large">{{ "{:,}".format(contestant.votes) }}</span>
+                            <span class="votes-label-large">Total Votes</span>
+                        </div>
+                        
+                        <div class="progress-section">
+                            {% set progress = (contestant.votes / 400 * 100)|int %}
+                            {% set progress_capped = [progress, 100]|min %}
+                            <div class="progress-bar-profile">
+                                <div class="progress-fill-profile" style="width: {{ progress_capped }}%"></div>
+                            </div>
+                            <p class="progress-status">
+                                {% if contestant.votes >= 400 %}
+                                ✓ Finalist Status Achieved!
+                                {% else %}
+                                {{ 400 - contestant.votes }} votes needed to become a finalist
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <a href="{{ url_for('vote_page', contestant_id=contestant.id) }}" 
+                           class="btn btn-primary btn-large">
+                           🗳️ Vote for {{ contestant.name.split()[0] }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    {% if contestant.gallery and contestant.gallery|length > 0 %}
+    <section class="photo-gallery-section">
+        <div class="container">
+            <h2 class="section-title">Photo Gallery</h2>
+            <p class="section-subtitle">View {{ contestant.name.split()[0] }}'s stunning photos</p>
+            
+            <div class="photo-gallery-grid">
+                {% for photo in contestant.gallery %}
+                <div class="gallery-photo-item" onclick="openLightbox({{ loop.index0 }})">
+                    <img src="{{ url_for('static', filename='images/' + photo) }}" 
+                         alt="{{ contestant.name }} - Photo {{ loop.index }}"
+                         onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
+                    <div class="photo-overlay">
+                        <span class="photo-zoom-icon">🔍</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-prev" onclick="changePhoto(-1)">❮</button>
+            <img id="lightbox-img" src="" alt="{{ contestant.name }}">
+            <button class="lightbox-next" onclick="changePhoto(1)">❯</button>
+        </div>
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+    {% endif %}
+
+    <!-- Voting Packages -->
+    <section class="profile-voting-section">
+        <div class="container">
+            <h2 class="section-title">Support {{ contestant.name.split()[0] }}</h2>
+            <p class="section-subtitle">Choose a voting package to help her win</p>
+            
+            <div class="packages-grid">
+                {% for key, package in vote_packages.items() %}
+                <a href="{{ url_for('checkout', contestant_id=contestant.id, package_id=key) }}" 
+                   class="package-card {% if key == '300' %}package-featured{% endif %}" 
+                   style="text-decoration: none; color: inherit;">
+                    {% if key == '300' %}
+                    <div class="package-badge">Best Value</div>
+                    {% endif %}
+                    <div class="package-price">R{{ package.price }}</div>
+                    <div class="package-votes">{{ package.votes }} Votes</div>
+                    <div class="package-per-vote">R{{ "%.2f"|format(package.price / package.votes) }} per vote</div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Other Contestants -->
+    {% if other_contestants and other_contestants|length > 0 %}
+    <section class="other-contestants-section">
+        <div class="container">
+            <h2 class="section-title">Support Other Contestants</h2>
+            
+            <div class="contestants-grid">
+                {% for other in other_contestants %}
+                <div class="contestant-card">
+                    <div class="contestant-image-wrapper">
+                        <img src="{{ url_for('static', filename='images/' + other.image) }}" 
+                             alt="{{ other.name }}"
+                             onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
+                        <div class="contestant-status">{{ other.status }}</div>
+                    </div>
+                    <div class="contestant-info">
+                        <h3 class="contestant-name">{{ other.name }}</h3>
+                        <p class="contestant-id">{{ other.id }}</p>
+                        <div class="contestant-votes">
+                            <span class="votes-count">{{ "{:,}".format(other.votes) }}</span>
+                            <span class="votes-label">Total Votes</span>
+                        </div>
+                        <a href="{{ url_for('contestant_profile', contestant_id=other.id) }}" 
+                           class="btn btn-secondary">View Profile</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="view-all-link">
+                <a href="{{ url_for('gallery') }}" class="btn btn-primary">View All Contestants</a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-crown">👑</div>
+                    <span>Miss Gorgeous Hearts PTA</span>
+                </div>
+                <p class="footer-tagline">Real Queens Fix Each Other's Crowns</p>
+                <p class="footer-copyright">&copy; 2026 Miss Gorgeous Hearts Pretoria. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        // Lightbox functionality
+        let currentPhotoIndex = 0;
+        const photos = {{ contestant.gallery|tojson if contestant.gallery else '[]' }};
+        
+        function openLightbox(index) {
+            currentPhotoIndex = index;
+            document.getElementById('lightbox').style.display = 'flex';
+            updateLightboxImage();
+        }
+        
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+        
+        function changePhoto(direction) {
+            currentPhotoIndex += direction;
+            if (currentPhotoIndex < 0) currentPhotoIndex = photos.length - 1;
+            if (currentPhotoIndex >= photos.length) currentPhotoIndex = 0;
+            updateLightboxImage();
+        }
+        
+        function updateLightboxImage() {
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            img.src = "{{ url_for('static', filename='images/') }}" + photos[currentPhotoIndex];
+            caption.textContent = `Photo ${currentPhotoIndex + 1} of ${photos.length}`;
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.style.display === 'flex') {
+                if (e.key === 'ArrowLeft') changePhoto(-1);
+                if (e.key === 'ArrowRight') changePhoto(1);
+                if (e.key === 'Escape') closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
