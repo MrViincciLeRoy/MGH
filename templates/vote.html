@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote for {{ contestant.name }} - Miss Gorgeous Hearts Pretoria 2026</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="sparkles"></div>
+    
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="logo">
+                    <div class="logo-crown">👑</div>
+                    <span>Miss Gorgeous Hearts</span>
+                </div>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('gallery') }}">Contestants</a></li>
+                <li><a href="{{ url_for('how_to_vote') }}">How to Vote</a></li>
+                <li><a href="{{ url_for('index') }}#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="vote-page-section">
+        <div class="container">
+            <div class="vote-page-grid">
+                <div class="contestant-showcase">
+                    <div class="showcase-image">
+                        <img src="{{ url_for('static', filename='images/' + contestant.image) }}" 
+                             alt="{{ contestant.name }}"
+                             onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
+                        <div class="showcase-status">{{ contestant.status }}</div>
+                    </div>
+                    <div class="showcase-info">
+                        <h1 class="contestant-showcase-name">{{ contestant.name }}</h1>
+                        <p class="contestant-showcase-ref">Reference: {{ contestant.id }}</p>
+                        <div class="showcase-votes">
+                            <div class="votes-number">{{ contestant.votes }}</div>
+                            <div class="votes-label">Total Votes</div>
+                        </div>
+                        <div class="finalist-progress">
+                            <div class="progress-bar-large">
+                                <div class="progress-fill-large" style="width: {{ (contestant.votes / 400 * 100)|min(100) }}%"></div>
+                            </div>
+                            <p class="progress-info">
+                                {% if contestant.votes >= 400 %}
+                                ✓ Finalist Status Achieved!
+                                {% else %}
+                                {{ 400 - contestant.votes }} votes needed to become a finalist
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="voting-panel">
+                    <h2>Vote for {{ contestant.name }}</h2>
+                    <p class="voting-intro">Choose your voting package and support {{ contestant.name.split()[0] }} in her journey to the crown!</p>
+
+                    <div class="voting-packages">
+                        {% for key, package in vote_packages.items() %}
+                        <div class="voting-package {% if key == '300' %}package-best-value{% endif %}">
+                            {% if key == '300' %}
+                            <span class="package-badge-small">Best Value</span>
+                            {% endif %}
+                            <div class="package-header">
+                                <div class="package-price-large">R{{ package.price }}</div>
+                                <div class="package-votes-large">{{ package.votes }} Votes</div>
+                            </div>
+                            <div class="package-details">
+                                <p>R{{ "%.2f"|format(package.price / package.votes) }} per vote</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="payment-instructions">
+                        <h3>Payment Instructions</h3>
+                        <div class="instruction-steps">
+                            <div class="instruction-step">
+                                <div class="step-icon">1</div>
+                                <div class="step-content">
+                                    <h4>Choose Your Package</h4>
+                                    <p>Select the voting package that suits you best</p>
+                                </div>
+                            </div>
+                            <div class="instruction-step">
+                                <div class="step-icon">2</div>
+                                <div class="step-content">
+                                    <h4>Make Payment</h4>
+                                    <div class="bank-details-compact">
+                                        <p><strong>Bank:</strong> {{ bank_details.bank_name }}</p>
+                                        <p><strong>Account:</strong> {{ bank_details.account_number }}</p>
+                                        <p><strong>Name:</strong> {{ bank_details.account_holder }}</p>
+                                        <p><strong>Linked:</strong> {{ bank_details.linked_number }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="instruction-step">
+                                <div class="step-icon">3</div>
+                                <div class="step-content">
+                                    <h4>Send Proof of Payment</h4>
+                                    <p>WhatsApp your proof of payment with reference: <strong>{{ contestant.id }}</strong></p>
+                                    <div class="whatsapp-buttons">
+                                        {% for number in contact_info.whatsapp %}
+                                        <a href="https://wa.me/27{{ number[1:] }}?text=I%20would%20like%20to%20vote%20for%20{{ contestant.name }}%20({{ contestant.id }})" 
+                                           class="btn btn-whatsapp">
+                                           📱 WhatsApp {{ number }}
+                                        </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="instruction-step">
+                                <div class="step-icon">4</div>
+                                <div class="step-content">
+                                    <h4>Votes Added</h4>
+                                    <p>Your votes will be added to {{ contestant.name }}'s total</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="important-note">
+                        <h4>⚠️ Important</h4>
+                        <p>Always include the contestant's reference code ({{ contestant.id }}) when sending your proof of payment to ensure votes are allocated correctly.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="other-contestants-section">
+        <div class="container">
+            <h2>Support Other Contestants</h2>
+            <a href="{{ url_for('gallery') }}" class="btn btn-secondary">View All Contestants</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-crown">👑</div>
+                    <span>Miss Gorgeous Hearts PTA</span>
+                </div>
+                <p class="footer-tagline">Real Queens Fix Each Other's Crowns</p>
+                <p class="footer-copyright">&copy; 2026 Miss Gorgeous Hearts Pretoria. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
