@@ -22,7 +22,11 @@ def init_data():
                 'name': 'Angel Lekala',
                 'status': 'Semi-Finalist',
                 'image': 'angel_lekala.jpg',
-                'votes': 0
+                'votes': 0,
+                'bio': 'A passionate and driven young woman who believes in empowering others.',
+                'age': 22,
+                'location': 'Pretoria',
+                'gallery': ['angel_lekala_1.jpg', 'angel_lekala_2.jpg', 'angel_lekala_3.jpg']
             }
         ]
         with open(CONTESTANTS_FILE, 'w') as f:
@@ -80,8 +84,13 @@ def save_votes(votes):
 def index():
     contestants = load_contestants()
     days_remaining = (CLOSING_DATE - datetime.now()).days
+    
+    # Get top 3 contestants for preview
+    top_contestants = sorted(contestants, key=lambda x: x['votes'], reverse=True)[:3]
+    
     return render_template('index.html', 
                          contestants=contestants,
+                         top_contestants=top_contestants,
                          vote_packages=VOTE_PACKAGES,
                          bank_details=BANK_DETAILS,
                          contact_info=CONTACT_INFO,
@@ -92,6 +101,50 @@ def index():
 def gallery():
     contestants = load_contestants()
     return render_template('gallery.html', contestants=contestants)
+
+@app.route('/contestant/<contestant_id>')
+def contestant_profile(contestant_id):
+    contestants = load_contestants()
+    contestant = next((c for c in contestants if c['id'] == contestant_id), None)
+    if not contestant:
+        return redirect(url_for('index'))
+    
+    # Get other contestants for suggestions
+    other_contestants = [c for c in contestants if c['id'] != contestant_id][:3]
+    
+    return render_template('contestant_profile.html', 
+                         contestant=contestant,
+                         other_contestants=other_contestants,
+                         vote_packages=VOTE_PACKAGES)
+
+@app.route('/leaderboard')
+def leaderboard():
+    contestants = load_contestants()
+    # Sort contestants by votes (descending)
+    sorted_contestants = sorted(contestants, key=lambda x: x['votes'], reverse=True)
+    
+    # Calculate statistics
+    total_votes = sum(c['votes'] for c in contestants)
+    total_contestants = len(contestants)
+    finalists = len([c for c in contestants if c['votes'] >= 400])
+    
+    stats = {
+        'total_votes': total_votes,
+        'total_contestants': total_contestants,
+        'finalists': finalists,
+        'average_votes': total_votes // total_contestants if total_contestants > 0 else 0
+    }
+    
+    return render_template('leaderboard.html', 
+                         contestants=sorted_contestants,
+                         stats=stats,
+                         closing_date=CLOSING_DATE)
+
+@app.route('/about')
+def about():
+    return render_template('about.html',
+                         contact_info=CONTACT_INFO,
+                         closing_date=CLOSING_DATE)
 
 @app.route('/vote/<contestant_id>')
 def vote_page(contestant_id):
