@@ -48,8 +48,9 @@
                             <div class="votes-label">Total Votes</div>
                         </div>
                         <div class="finalist-progress">
+                            {% set vote_percentage = [((contestant.votes / 400) * 100), 100]|min %}
                             <div class="progress-bar-large">
-                                <div class="progress-fill-large" style="width: {{ (contestant.votes / 400 * 100)|min(100) }}%"></div>
+                                <div class="progress-fill-large" style="width: {{ vote_percentage }}%"></div>
                             </div>
                             <p class="progress-info">
                                 {% if contestant.votes >= 400 %}
