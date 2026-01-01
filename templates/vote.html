@@ -69,7 +69,9 @@
 
                     <div class="voting-packages">
                         {% for key, package in vote_packages.items() %}
-                        <div class="voting-package {% if key == '300' %}package-best-value{% endif %}">
+                        <a href="{{ url_for('checkout', contestant_id=contestant.id, package_id=key) }}" 
+                           class="voting-package {% if key == '300' %}package-best-value{% endif %}" 
+                           style="text-decoration: none; color: inherit;">
                             {% if key == '300' %}
                             <span class="package-badge-small">Best Value</span>
                             {% endif %}
@@ -80,7 +82,10 @@
                             <div class="package-details">
                                 <p>R{{ "%.2f"|format(package.price / package.votes) }} per vote</p>
                             </div>
-                        </div>
+                            <div class="package-select-btn">
+                                Select Package →
+                            </div>
+                        </a>
                         {% endfor %}
                     </div>
 

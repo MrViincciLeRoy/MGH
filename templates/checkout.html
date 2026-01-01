@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Vote for {{ contestant.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="sparkles"></div>
+    
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="logo">
+                    <div class="logo-crown">👑</div>
+                    <span>Miss Gorgeous Hearts</span>
+                </div>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('gallery') }}">Contestants</a></li>
+                <li><a href="{{ url_for('how_to_vote') }}">How to Vote</a></li>
+                <li><a href="{{ url_for('index') }}#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="nav-overlay"></div>
+
+    <section class="checkout-section">
+        <div class="container">
+            <div class="checkout-header">
+                <h1 class="page-title">Complete Your Vote</h1>
+                <p class="page-subtitle">You're supporting {{ contestant.name }}</p>
+            </div>
+
+            <div class="checkout-grid">
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <div class="summary-card">
+                        <h2>Order Summary</h2>
+                        
+                        <div class="contestant-mini">
+                            <img src="{{ url_for('static', filename='images/' + contestant.image) }}" 
+                                 alt="{{ contestant.name }}"
+                                 onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
+                            <div class="contestant-mini-info">
+                                <h3>{{ contestant.name }}</h3>
+                                <p>{{ contestant.id }}</p>
+                            </div>
+                        </div>
+
+                        <div class="order-details">
+                            <div class="order-row">
+                                <span>Package Selected:</span>
+                                <strong>R{{ package.price }} Package</strong>
+                            </div>
+                            <div class="order-row">
+                                <span>Votes Included:</span>
+                                <strong>{{ package.votes }} Votes</strong>
+                            </div>
+                            <div class="order-row">
+                                <span>Price per Vote:</span>
+                                <span>R{{ "%.2f"|format(package.price / package.votes) }}</span>
+                            </div>
+                        </div>
+
+                        <div class="order-total">
+                            <span>Total Amount:</span>
+                            <strong class="total-price">R{{ package.price }}</strong>
+                        </div>
+
+                        <div class="package-badge-checkout">
+                            {% if package_id == '300' %}
+                            <span class="best-value-badge">🏆 Best Value Package</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Form -->
+                <div class="payment-section">
+                    <div class="payment-card">
+                        <h2>Payment Method</h2>
+                        
+                        <form method="POST" action="{{ url_for('process_payment') }}" class="payment-form" id="paymentForm">
+                            <div class="payment-methods">
+                                <label class="payment-method-option">
+                                    <input type="radio" name="payment_method" value="bank_transfer" checked>
+                                    <div class="method-content">
+                                        <div class="method-icon">🏦</div>
+                                        <div class="method-info">
+                                            <strong>Bank Transfer</strong>
+                                            <span>Direct bank transfer - Most popular</span>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="payment-method-option">
+                                    <input type="radio" name="payment_method" value="instant_eft">
+                                    <div class="method-content">
+                                        <div class="method-icon">⚡</div>
+                                        <div class="method-info">
+                                            <strong>Instant EFT</strong>
+                                            <span>Fast and secure</span>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="payment-method-option">
+                                    <input type="radio" name="payment_method" value="cash_deposit">
+                                    <div class="method-content">
+                                        <div class="method-icon">💵</div>
+                                        <div class="method-info">
+                                            <strong>Cash Deposit</strong>
+                                            <span>At any branch</span>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="bank-details-checkout">
+                                <h3>📋 Bank Account Details</h3>
+                                <div class="bank-info-grid">
+                                    <div class="bank-info-item">
+                                        <span class="info-label">Bank Name</span>
+                                        <span class="info-value">{{ bank_details.bank_name }}</span>
+                                    </div>
+                                    <div class="bank-info-item">
+                                        <span class="info-label">Account Holder</span>
+                                        <span class="info-value">{{ bank_details.account_holder }}</span>
+                                    </div>
+                                    <div class="bank-info-item highlighted">
+                                        <span class="info-label">Account Number</span>
+                                        <span class="info-value" id="accountNumber">{{ bank_details.account_number }}</span>
+                                        <button type="button" class="copy-btn" onclick="copyAccountNumber()">📋 Copy</button>
+                                    </div>
+                                    <div class="bank-info-item">
+                                        <span class="info-label">Linked Number</span>
+                                        <span class="info-value">{{ bank_details.linked_number }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="payment-instructions-box">
+                                <h4>⚠️ Important Instructions</h4>
+                                <ol>
+                                    <li>Transfer <strong>R{{ package.price }}</strong> to the account above</li>
+                                    <li>Use reference: <strong>{{ contestant.id }}</strong></li>
+                                    <li>Take a screenshot of the payment confirmation</li>
+                                    <li>Send proof via WhatsApp to verify your vote</li>
+                                </ol>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary btn-large btn-checkout">
+                                    Continue to Payment Confirmation
+                                </button>
+                                <a href="{{ url_for('vote_page', contestant_id=contestant.id) }}" class="btn btn-secondary btn-back">
+                                    ← Back to Packages
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Secure Payment Notice -->
+            <div class="security-notice">
+                <div class="security-icon">🔒</div>
+                <div class="security-text">
+                    <strong>Secure Payment Process</strong>
+                    <p>Your payment information is handled securely. After payment, send proof via WhatsApp for instant vote activation.</p>
+                </div>
+            </div>
+
+            <!-- Quick WhatsApp Access -->
+            <div class="quick-whatsapp">
+                <h3>📱 Send Payment Proof</h3>
+                <p>After making payment, send your proof to one of our numbers:</p>
+                <div class="whatsapp-buttons-checkout">
+                    {% for number in contact_info.whatsapp %}
+                    <a href="https://wa.me/27{{ number[1:] }}?text=Payment%20Proof%20for%20{{ contestant.name }}%20({{ contestant.id }})%20-%20R{{ package.price }}" 
+                       class="btn btn-whatsapp" target="_blank">
+                       📱 WhatsApp {{ number }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-crown">👑</div>
+                    <span>Miss Gorgeous Hearts PTA</span>
+                </div>
+                <p class="footer-tagline">Real Queens Fix Each Other's Crowns</p>
+                <p class="footer-copyright">&copy; 2026 Miss Gorgeous Hearts Pretoria. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        function copyAccountNumber() {
+            const accountNumber = document.getElementById('accountNumber').textContent;
+            navigator.clipboard.writeText(accountNumber).then(() => {
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✓ Copied!';
+                btn.style.background = '#25D366';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // Form validation
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            const confirmation = confirm('Have you made the payment of R{{ package.price }}? Click OK to continue to confirmation page.');
+            if (!confirmation) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
