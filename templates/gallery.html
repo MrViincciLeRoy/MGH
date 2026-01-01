@@ -46,6 +46,7 @@
 
             <div class="contestants-gallery">
                 {% for contestant in contestants %}
+                {% set vote_percentage = [((contestant.votes / 400) * 100), 100]|min %}
                 <div class="gallery-card" data-status="{{ contestant.status|lower|replace(' ', '-') }}">
                     <div class="gallery-image-wrapper">
                         <img src="{{ url_for('static', filename='images/' + contestant.image) }}" 
@@ -66,7 +67,7 @@
                         <div class="gallery-votes">
                             <div class="votes-progress">
                                 <div class="progress-bar">
-                                    <div class="progress-fill" style="width: {{ (contestant.votes / 400 * 100)|min(100) }}%"></div>
+                                    <div class="progress-fill" style="width: {{ vote_percentage }}%"></div>
                                 </div>
                                 <div class="progress-text">
                                     <span class="current-votes">{{ contestant.votes }}</span> / 
