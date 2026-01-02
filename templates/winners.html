@@ -4,25 +4,6 @@
 
 {% block nav_winners %}active{% endblock %}
 
-{% block extra_head %}
-<style>
-.winners-hero {
-    padding: 10rem 0 5rem;
-    background: linear-gradient(135deg, var(--black) 0%, var(--dark-bg) 100%);
-    text-align: center;
-}
-.hall-of-fame-icon {
-    font-size: 5rem;
-    margin-bottom: 1rem;
-    animation: float 3s ease-in-out infinite;
-}
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-</style>
-{% endblock %}
-
 {% block content %}
 <!-- Hero Section -->
 <section class="winners-hero">
@@ -104,7 +85,7 @@
     <div class="container">
         <h2 class="section-title">Our Legacy</h2>
         <div class="legacy-content">
-            <p style="color: var(--text-gray); font-size: 1.1rem; line-height: 1.8;">
+            <p style="color: var(--text-gray); font-size: 1.1rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
                 Since 2023, Miss Gorgeous Hearts Pretoria has been a platform for young women to showcase their 
                 beauty, talent, and commitment to making a difference. Our winners continue to inspire and lead 
                 long after their reign, proving that real queens fix each other's crowns.
@@ -137,7 +118,7 @@
         <div class="cta-content">
             <h2>Want to Be Our Next Queen?</h2>
             <p>Join Miss Gorgeous Hearts {{ closing_date.year }} and start your journey to the crown!</p>
-            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+            <div class="cta-buttons">
                 <a href="{{ url_for('gallery') }}" class="btn btn-primary btn-large">Vote for {{ closing_date.year }} Contestants</a>
                 <a href="https://wa.me/27{{ contact_info.whatsapp[0][1:] }}?text=I%20would%20like%20to%20enter%20Miss%20Gorgeous%20Hearts%20{{ closing_date.year }}" 
                    class="btn btn-secondary btn-large">Apply to Enter</a>
