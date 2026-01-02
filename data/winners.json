@@ -1,0 +1,41 @@
+[
+  {
+    "year": 2023,
+    "winner_name": "Precious Mahlalela",
+    "title": "Miss Gorgeous Hearts Pretoria 2023",
+    "image": "winner_2023.jpg",
+    "final_votes": 1250,
+    "achievements": [
+      "Community Outreach Ambassador",
+      "Youth Empowerment Advocate",
+      "Raised R15,000 for local charities"
+    ],
+    "quote": "Real queens fix each other's crowns - this title taught me the power of unity and sisterhood."
+  },
+  {
+    "year": 2024,
+    "winner_name": "Lerato Mokoena",
+    "title": "Miss Gorgeous Hearts Pretoria 2024",
+    "image": "winner_2024.jpg",
+    "final_votes": 1580,
+    "achievements": [
+      "Educational Programs Coordinator",
+      "Mentored 50+ young women",
+      "Launched 'Queens United' initiative"
+    ],
+    "quote": "Winning this crown was just the beginning of my journey to empower and uplift others."
+  },
+  {
+    "year": 2025,
+    "winner_name": "Thandi Ndlovu",
+    "title": "Miss Gorgeous Hearts Pretoria 2025",
+    "image": "winner_2025.jpg",
+    "final_votes": 1820,
+    "achievements": [
+      "Anti-Bullying Campaign Leader",
+      "Founded 'Gorgeous Hearts Foundation'",
+      "Partnered with 10+ local schools"
+    ],
+    "quote": "This crown represents every girl who dared to dream and every woman who lifted her up."
+  }
+]
