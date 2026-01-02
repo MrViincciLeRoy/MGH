@@ -253,27 +253,7 @@ def submit_vote():
     
     return jsonify({'success': False, 'error': 'Contestant not found'}), 404
 
-@app.route('/admin', methods=['GET', 'POST'])
-def admin():
-    # Simple password protection - change this password!
-    ADMIN_PASSWORD = 'gorgeoushearts2026'
-    
-    if request.method == 'POST':
-        # Check if adding votes
-        if request.form.get('authenticated') == 'true':
-            contestant_id = request.form.get('contestant_id')
-            votes_to_add = int(request.form.get('votes_to_add', 0))
-            
-            contestants = load_contestants()
-            for contestant in contestants:
-                if contestant['id'] == contestant_id:
-                    contestant['votes'] += votes_to_add
-                    save_contestants(contestants)
-                    return render_template('admin.html', 
-                                         contestants=contestants,
-                                         authenticated=True,
-                                         success=f'Successfully added {votes_to_add} votes to {contestant["name"]}!')
-        
+   
         # Check password
         password = request.form.get('password')
         if password == ADMIN_PASSWORD:
@@ -287,6 +267,70 @@ def admin():
                                  error='Incorrect password')
     
     return render_template('admin.html', authenticated=False)
+# Add this route to your app.py file
+
+@app.route('/winners')
+def winners():
+    """Display previous winners"""
+    winners_file = 'data/winners.json'
+    
+    # Initialize winners file if it doesn't exist
+    if not os.path.exists(winners_file):
+        default_winners = [
+            {
+                "year": 2023,
+                "winner_name": "Precious Mahlalela",
+                "title": "Miss Gorgeous Hearts Pretoria 2023",
+                "image": "winner_2023.jpg",
+                "final_votes": 1250,
+                "achievements": [
+                    "Community Outreach Ambassador",
+                    "Youth Empowerment Advocate",
+                    "Raised R15,000 for local charities"
+                ],
+                "quote": "Real queens fix each other's crowns - this title taught me the power of unity and sisterhood."
+            },
+            {
+                "year": 2024,
+                "winner_name": "Lerato Mokoena",
+                "title": "Miss Gorgeous Hearts Pretoria 2024",
+                "image": "winner_2024.jpg",
+                "final_votes": 1580,
+                "achievements": [
+                    "Educational Programs Coordinator",
+                    "Mentored 50+ young women",
+                    "Launched 'Queens United' initiative"
+                ],
+                "quote": "Winning this crown was just the beginning of my journey to empower and uplift others."
+            },
+            {
+                "year": 2025,
+                "winner_name": "Thandi Ndlovu",
+                "title": "Miss Gorgeous Hearts Pretoria 2025",
+                "image": "winner_2025.jpg",
+                "final_votes": 1820,
+                "achievements": [
+                    "Anti-Bullying Campaign Leader",
+                    "Founded 'Gorgeous Hearts Foundation'",
+                    "Partnered with 10+ local schools"
+                ],
+                "quote": "This crown represents every girl who dared to dream and every woman who lifted her up."
+            }
+        ]
+        with open(winners_file, 'w') as f:
+            json.dump(default_winners, f, indent=2)
+    
+    # Load winners
+    with open(winners_file, 'r') as f:
+        winners_data = json.load(f)
+    
+    # Sort by year descending (most recent first)
+    winners_data = sorted(winners_data, key=lambda x: x['year'], reverse=True)
+    
+    return render_template('winners.html', 
+                         winners=winners_data,
+                         contact_info=CONTACT_INFO,
+                         closing_date=CLOSING_DATE)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
