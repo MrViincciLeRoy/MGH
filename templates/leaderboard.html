@@ -1,277 +1,232 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard - Miss Gorgeous Hearts Pretoria 2026</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="stars"></div>
-    <div class="sparkles"></div>
-    
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <div class="logo">
-                    <div class="logo-crown">👑</div>
-                    <span>Miss Gorgeous Hearts</span>
-                </div>
+{% extends "base.html" %}
+
+{% block title %}Leaderboard - Miss Gorgeous Hearts Pretoria 2026{% endblock %}
+
+{% block nav_leaderboard %}active{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title">🏆 Leaderboard</h1>
+        <p class="page-subtitle">See who's leading the race to the crown</p>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🗳️</div>
+                <div class="stat-number">{{ "{:,}".format(stats.total_votes) }}</div>
+                <div class="stat-label">Total Votes</div>
             </div>
-            <button class="nav-toggle" aria-label="Toggle navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-menu">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('gallery') }}">Contestants</a></li>
-                <li><a href="{{ url_for('leaderboard') }}" class="active">Leaderboard</a></li>
-                <li><a href="{{ url_for('about') }}">About</a></li>
-                <li><a href="{{ url_for('how_to_vote') }}">How to Vote</a></li>
-            </ul>
-        </div>
-    </nav>
-    <div class="nav-overlay"></div>
-
-    <section class="page-header">
-        <div class="container">
-            <h1 class="page-title">🏆 Leaderboard</h1>
-            <p class="page-subtitle">See who's leading the race to the crown</p>
-        </div>
-    </section>
-
-    <!-- Statistics Section -->
-    <section class="stats-section">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">🗳️</div>
-                    <div class="stat-number">{{ "{:,}".format(stats.total_votes) }}</div>
-                    <div class="stat-label">Total Votes</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">👑</div>
-                    <div class="stat-number">{{ stats.total_contestants }}</div>
-                    <div class="stat-label">Contestants</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">⭐</div>
-                    <div class="stat-number">{{ stats.finalists }}</div>
-                    <div class="stat-label">Finalists</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-number">{{ "{:,}".format(stats.average_votes) }}</div>
-                    <div class="stat-label">Avg Votes</div>
-                </div>
+            <div class="stat-card">
+                <div class="stat-icon">👑</div>
+                <div class="stat-number">{{ stats.total_contestants }}</div>
+                <div class="stat-label">Contestants</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-number">{{ stats.finalists }}</div>
+                <div class="stat-label">Finalists</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-number">{{ "{:,}".format(stats.average_votes) }}</div>
+                <div class="stat-label">Avg Votes</div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Leaderboard Section -->
-    <section class="leaderboard-section">
-        <div class="container">
-            <div class="leaderboard-header">
-                <h2>Current Rankings</h2>
-                <p class="update-notice">🔄 Updates in real-time as votes come in</p>
-            </div>
+<!-- Leaderboard Section -->
+<section class="leaderboard-section">
+    <div class="container">
+        <div class="leaderboard-header">
+            <h2>Current Rankings</h2>
+            <p class="update-notice">🔄 Updates in real-time as votes come in</p>
+        </div>
 
-            <div class="leaderboard-table-wrapper">
-                <div class="leaderboard-table">
-                    <!-- Top 3 Podium -->
-                    {% if contestants|length >= 3 %}
-                    <div class="podium-section">
-                        <div class="podium-container">
-                            <!-- 2nd Place -->
-                            <div class="podium-contestant podium-second">
-                                <div class="podium-rank">2nd</div>
-                                <div class="podium-image">
-                                    <img src="{{ url_for('static', filename='images/' + contestants[1].image) }}" 
-                                         alt="{{ contestants[1].name }}"
-                                         onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
-                                    <div class="medal-badge silver">🥈</div>
-                                </div>
-                                <h3>{{ contestants[1].name }}</h3>
-                                <div class="podium-votes">{{ "{:,}".format(contestants[1].votes) }} votes</div>
-                                <a href="{{ url_for('vote_page', contestant_id=contestants[1].id) }}" class="btn btn-secondary btn-small">Vote</a>
+        <div class="leaderboard-table-wrapper">
+            <div class="leaderboard-table">
+                <!-- Top 3 Podium -->
+                {% if contestants|length >= 3 %}
+                <div class="podium-section">
+                    <div class="podium-container">
+                        <!-- 2nd Place -->
+                        <div class="podium-contestant podium-second">
+                            <div class="podium-rank">2nd</div>
+                            <div class="podium-image">
+                                <img src="{{ url_for('static', filename='images/' + contestants[1].image) }}" 
+                                     alt="{{ contestants[1].name }}"
+                                     onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
+                                <div class="medal-badge silver">🥈</div>
                             </div>
-                            
-                            <!-- 1st Place -->
-                            <div class="podium-contestant podium-first">
-                                <div class="podium-rank">1st</div>
-                                <div class="podium-image winner">
-                                    <img src="{{ url_for('static', filename='images/' + contestants[0].image) }}" 
-                                         alt="{{ contestants[0].name }}"
-                                         onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
-                                    <div class="medal-badge gold">🥇</div>
-                                    <div class="crown-badge">👑</div>
-                                </div>
-                                <h3>{{ contestants[0].name }}</h3>
-                                <div class="podium-votes">{{ "{:,}".format(contestants[0].votes) }} votes</div>
-                                <a href="{{ url_for('vote_page', contestant_id=contestants[0].id) }}" class="btn btn-primary btn-small">Vote</a>
+                            <h3>{{ contestants[1].name }}</h3>
+                            <div class="podium-votes">{{ "{:,}".format(contestants[1].votes) }} votes</div>
+                            <a href="{{ url_for('vote_page', contestant_id=contestants[1].id) }}" class="btn btn-secondary btn-small">Vote</a>
+                        </div>
+                        
+                        <!-- 1st Place -->
+                        <div class="podium-contestant podium-first">
+                            <div class="podium-rank">1st</div>
+                            <div class="podium-image winner">
+                                <img src="{{ url_for('static', filename='images/' + contestants[0].image) }}" 
+                                     alt="{{ contestants[0].name }}"
+                                     onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
+                                <div class="medal-badge gold">🥇</div>
+                                <div class="crown-badge">👑</div>
                             </div>
-                            
-                            <!-- 3rd Place -->
-                            <div class="podium-contestant podium-third">
-                                <div class="podium-rank">3rd</div>
-                                <div class="podium-image">
-                                    <img src="{{ url_for('static', filename='images/' + contestants[2].image) }}" 
-                                         alt="{{ contestants[2].name }}"
-                                         onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
-                                    <div class="medal-badge bronze">🥉</div>
-                                </div>
-                                <h3>{{ contestants[2].name }}</h3>
-                                <div class="podium-votes">{{ "{:,}".format(contestants[2].votes) }} votes</div>
-                                <a href="{{ url_for('vote_page', contestant_id=contestants[2].id) }}" class="btn btn-secondary btn-small">Vote</a>
+                            <h3>{{ contestants[0].name }}</h3>
+                            <div class="podium-votes">{{ "{:,}".format(contestants[0].votes) }} votes</div>
+                            <a href="{{ url_for('vote_page', contestant_id=contestants[0].id) }}" class="btn btn-primary btn-small">Vote</a>
+                        </div>
+                        
+                        <!-- 3rd Place -->
+                        <div class="podium-contestant podium-third">
+                            <div class="podium-rank">3rd</div>
+                            <div class="podium-image">
+                                <img src="{{ url_for('static', filename='images/' + contestants[2].image) }}" 
+                                     alt="{{ contestants[2].name }}"
+                                     onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
+                                <div class="medal-badge bronze">🥉</div>
                             </div>
+                            <h3>{{ contestants[2].name }}</h3>
+                            <div class="podium-votes">{{ "{:,}".format(contestants[2].votes) }} votes</div>
+                            <a href="{{ url_for('vote_page', contestant_id=contestants[2].id) }}" class="btn btn-secondary btn-small">Vote</a>
                         </div>
                     </div>
-                    {% endif %}
+                </div>
+                {% endif %}
 
-                    <!-- Full Rankings Table -->
-                    <div class="rankings-table">
-                        <table class="leaderboard-data">
-                            <thead>
-                                <tr>
-                                    <th>Rank</th>
-                                    <th>Contestant</th>
-                                    <th>Status</th>
-                                    <th>Votes</th>
-                                    <th>Progress</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for contestant in contestants %}
-                                <tr class="ranking-row {% if loop.index <= 3 %}top-three{% endif %} {% if contestant.votes >= 400 %}finalist-row{% endif %}">
-                                    <td class="rank-cell">
-                                        <div class="rank-number">
-                                            {% if loop.index == 1 %}
-                                            <span class="rank-badge gold">🥇 #1</span>
-                                            {% elif loop.index == 2 %}
-                                            <span class="rank-badge silver">🥈 #2</span>
-                                            {% elif loop.index == 3 %}
-                                            <span class="rank-badge bronze">🥉 #3</span>
-                                            {% else %}
-                                            <span class="rank-badge">#{{ loop.index }}</span>
-                                            {% endif %}
-                                        </div>
-                                    </td>
-                                    <td class="contestant-cell">
-                                        <div class="contestant-info-row">
-                                            <img src="{{ url_for('static', filename='images/' + contestant.image) }}" 
-                                                 alt="{{ contestant.name }}"
-                                                 onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
-                                            <div class="contestant-details">
-                                                <strong>{{ contestant.name }}</strong>
-                                                <span>{{ contestant.id }}</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="status-cell">
-                                        {% if contestant.votes >= 400 %}
-                                        <span class="status-badge finalist">✓ Finalist</span>
+                <!-- Full Rankings Table -->
+                <div class="rankings-table">
+                    <table class="leaderboard-data">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Contestant</th>
+                                <th>Status</th>
+                                <th>Votes</th>
+                                <th>Progress</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for contestant in contestants %}
+                            <tr class="ranking-row {% if loop.index <= 3 %}top-three{% endif %} {% if contestant.votes >= 400 %}finalist-row{% endif %}">
+                                <td class="rank-cell">
+                                    <div class="rank-number">
+                                        {% if loop.index == 1 %}
+                                        <span class="rank-badge gold">🥇 #1</span>
+                                        {% elif loop.index == 2 %}
+                                        <span class="rank-badge silver">🥈 #2</span>
+                                        {% elif loop.index == 3 %}
+                                        <span class="rank-badge bronze">🥉 #3</span>
                                         {% else %}
-                                        <span class="status-badge competing">{{ contestant.status }}</span>
+                                        <span class="rank-badge">#{{ loop.index }}</span>
                                         {% endif %}
-                                    </td>
-                                    <td class="votes-cell">
-                                        <strong>{{ "{:,}".format(contestant.votes) }}</strong>
-                                    </td>
-                                    <td class="progress-cell">
-                                        {% set progress = (contestant.votes / 400 * 100)|int %}
-                                        {% set progress_capped = [progress, 100]|min %}
-                                        <div class="progress-container">
-                                            <div class="progress-bar-mini">
-                                                <div class="progress-fill-mini" style="width: {{ progress_capped }}%"></div>
-                                            </div>
-                                            <span class="progress-text-mini">{{ progress_capped }}%</span>
+                                    </div>
+                                </td>
+                                <td class="contestant-cell">
+                                    <div class="contestant-info-row">
+                                        <img src="{{ url_for('static', filename='images/' + contestant.image) }}" 
+                                             alt="{{ contestant.name }}"
+                                             onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
+                                        <div class="contestant-details">
+                                            <strong>{{ contestant.name }}</strong>
+                                            <span>{{ contestant.id }}</span>
                                         </div>
-                                        {% if contestant.votes < 400 %}
-                                        <small class="votes-needed">{{ 400 - contestant.votes }} to finalist</small>
-                                        {% endif %}
-                                    </td>
-                                    <td class="action-cell">
-                                        <a href="{{ url_for('vote_page', contestant_id=contestant.id) }}" 
-                                           class="btn btn-vote-small">Vote</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Finalist Qualification Info -->
-            <div class="qualification-info">
-                <h3>💎 How to Become a Finalist</h3>
-                <p>Contestants need <strong>400 votes</strong> to qualify as finalists. Help your favorite reach the finals!</p>
-                <div class="qualification-steps">
-                    <div class="qual-step">
-                        <span class="qual-icon">1️⃣</span>
-                        <span>Reach 400 votes</span>
-                    </div>
-                    <div class="qual-step">
-                        <span class="qual-icon">2️⃣</span>
-                        <span>Qualify as finalist</span>
-                    </div>
-                    <div class="qual-step">
-                        <span class="qual-icon">3️⃣</span>
-                        <span>Compete for the crown</span>
-                    </div>
+                                    </div>
+                                </td>
+                                <td class="status-cell">
+                                    {% if contestant.votes >= 400 %}
+                                    <span class="status-badge finalist">✓ Finalist</span>
+                                    {% else %}
+                                    <span class="status-badge competing">{{ contestant.status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="votes-cell">
+                                    <strong>{{ "{:,}".format(contestant.votes) }}</strong>
+                                </td>
+                                <td class="progress-cell">
+                                    {% set progress = (contestant.votes / 400 * 100)|int %}
+                                    {% set progress_capped = [progress, 100]|min %}
+                                    <div class="progress-container">
+                                        <div class="progress-bar-mini">
+                                            <div class="progress-fill-mini" style="width: {{ progress_capped }}%"></div>
+                                        </div>
+                                        <span class="progress-text-mini">{{ progress_capped }}%</span>
+                                    </div>
+                                    {% if contestant.votes < 400 %}
+                                    <small class="votes-needed">{{ 400 - contestant.votes }} to finalist</small>
+                                    {% endif %}
+                                </td>
+                                <td class="action-cell">
+                                    <a href="{{ url_for('vote_page', contestant_id=contestant.id) }}" 
+                                       class="btn btn-vote-small">Vote</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Call to Action -->
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Support Your Favorite Contestant!</h2>
-                <p>Every vote counts. Help them reach finalist status today.</p>
-                <a href="{{ url_for('gallery') }}" class="btn btn-primary btn-large">View All Contestants</a>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <div class="logo-crown">👑</div>
-                    <span>Miss Gorgeous Hearts PTA</span>
+        <!-- Finalist Qualification Info -->
+        <div class="qualification-info">
+            <h3>💎 How to Become a Finalist</h3>
+            <p>Contestants need <strong>400 votes</strong> to qualify as finalists. Help your favorite reach the finals!</p>
+            <div class="qualification-steps">
+                <div class="qual-step">
+                    <span class="qual-icon">1️⃣</span>
+                    <span>Reach 400 votes</span>
                 </div>
-                <p class="footer-tagline">Real Queens Fix Each Other's Crowns</p>
-                <p class="footer-copyright">&copy; 2026 Miss Gorgeous Hearts Pretoria. All rights reserved.</p>
+                <div class="qual-step">
+                    <span class="qual-icon">2️⃣</span>
+                    <span>Qualify as finalist</span>
+                </div>
+                <div class="qual-step">
+                    <span class="qual-icon">3️⃣</span>
+                    <span>Compete for the crown</span>
+                </div>
             </div>
         </div>
-    </footer>
+    </div>
+</section>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    <script>
-        // Auto-refresh leaderboard every 30 seconds
-        setInterval(() => {
-            fetch('/api/contestants')
-                .then(response => response.json())
-                .then(data => {
-                    // Update vote counts without full page reload
-                    data.forEach(contestant => {
-                        const cells = document.querySelectorAll(`[data-contestant-id="${contestant.id}"]`);
-                        cells.forEach(cell => {
-                            const voteCell = cell.querySelector('.votes-cell strong');
-                            if (voteCell) {
-                                voteCell.textContent = contestant.votes.toLocaleString();
-                            }
-                        });
+<!-- Call to Action -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Support Your Favorite Contestant!</h2>
+            <p>Every vote counts. Help them reach finalist status today.</p>
+            <a href="{{ url_for('gallery') }}" class="btn btn-primary btn-large">View All Contestants</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Auto-refresh leaderboard every 30 seconds
+    setInterval(() => {
+        fetch('/api/contestants')
+            .then(response => response.json())
+            .then(data => {
+                // Update vote counts without full page reload
+                data.forEach(contestant => {
+                    const cells = document.querySelectorAll(`[data-contestant-id="${contestant.id}"]`);
+                    cells.forEach(cell => {
+                        const voteCell = cell.querySelector('.votes-cell strong');
+                        if (voteCell) {
+                            voteCell.textContent = contestant.votes.toLocaleString();
+                        }
                     });
                 });
-        }, 30000);
-    </script>
-</body>
-</html>
+            });
+    }, 30000);
+</script>
+{% endblock %}

@@ -1,187 +1,146 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How to Vote - Miss Gorgeous Hearts Pretoria 2026</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="stars"></div>
-    <div class="sparkles"></div>
-    
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <div class="logo">
-                    <div class="logo-crown">👑</div>
-                    <span>Miss Gorgeous Hearts</span>
+{% extends "base.html" %}
+
+{% block title %}How to Vote - Miss Gorgeous Hearts Pretoria 2026{% endblock %}
+
+{% block nav_vote %}active{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title">How to Vote</h1>
+        <p class="page-subtitle">Follow these simple steps to support your favorite contestant</p>
+    </div>
+</section>
+
+<section class="how-to-vote-section">
+    <div class="container">
+        <div class="voting-steps-detailed">
+            <div class="detailed-step">
+                <div class="detailed-step-header">
+                    <div class="detailed-step-number">Step 1</div>
+                    <h3>Choose Your Vote Bundle</h3>
+                </div>
+                <div class="detailed-step-content">
+                    <p>Select from our affordable voting packages:</p>
+                    <div class="packages-list">
+                        {% for key, package in vote_packages.items() %}
+                        <div class="package-item">
+                            <span class="package-amount">R{{ package.price }}</span>
+                            <span class="package-equals">=</span>
+                            <span class="package-votes-count">{{ package.votes }} votes</span>
+                            {% if key == '300' %}
+                            <span class="best-value-tag">Best Value!</span>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-            <ul class="nav-menu">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('gallery') }}">Contestants</a></li>
-                <li><a href="{{ url_for('how_to_vote') }}" class="active">How to Vote</a></li>
-                <li><a href="{{ url_for('index') }}#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <section class="page-header">
-        <div class="container">
-            <h1 class="page-title">How to Vote</h1>
-            <p class="page-subtitle">Follow these simple steps to support your favorite contestant</p>
-        </div>
-    </section>
-
-    <section class="how-to-vote-section">
-        <div class="container">
-            <div class="voting-steps-detailed">
-                <div class="detailed-step">
-                    <div class="detailed-step-header">
-                        <div class="detailed-step-number">Step 1</div>
-                        <h3>Choose Your Vote Bundle</h3>
-                    </div>
-                    <div class="detailed-step-content">
-                        <p>Select from our affordable voting packages:</p>
-                        <div class="packages-list">
-                            {% for key, package in vote_packages.items() %}
-                            <div class="package-item">
-                                <span class="package-amount">R{{ package.price }}</span>
-                                <span class="package-equals">=</span>
-                                <span class="package-votes-count">{{ package.votes }} votes</span>
-                                {% if key == '300' %}
-                                <span class="best-value-tag">Best Value!</span>
-                                {% endif %}
-                            </div>
-                            {% endfor %}
+            <div class="detailed-step">
+                <div class="detailed-step-header">
+                    <div class="detailed-step-number">Step 2</div>
+                    <h3>Make Your Payment</h3>
+                </div>
+                <div class="detailed-step-content">
+                    <p>Transfer your chosen amount to our bank account:</p>
+                    <div class="bank-info-card">
+                        <div class="bank-info-row">
+                            <span class="bank-label">Bank Name:</span>
+                            <span class="bank-value">{{ bank_details.bank_name }}</span>
+                        </div>
+                        <div class="bank-info-row">
+                            <span class="bank-label">Account Holder:</span>
+                            <span class="bank-value">{{ bank_details.account_holder }}</span>
+                        </div>
+                        <div class="bank-info-row">
+                            <span class="bank-label">Account Number:</span>
+                            <span class="bank-value highlight">{{ bank_details.account_number }}</span>
+                        </div>
+                        <div class="bank-info-row">
+                            <span class="bank-label">Linked Number:</span>
+                            <span class="bank-value">{{ bank_details.linked_number }}</span>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="detailed-step">
-                    <div class="detailed-step-header">
-                        <div class="detailed-step-number">Step 2</div>
-                        <h3>Make Your Payment</h3>
+            <div class="detailed-step">
+                <div class="detailed-step-header">
+                    <div class="detailed-step-number">Step 3</div>
+                    <h3>Send Proof of Payment</h3>
+                </div>
+                <div class="detailed-step-content">
+                    <p>WhatsApp your proof of payment to one of our numbers:</p>
+                    <div class="whatsapp-contacts">
+                        {% for number in contact_info.whatsapp %}
+                        <a href="https://wa.me/27{{ number[1:] }}" class="whatsapp-contact-card">
+                            <div class="whatsapp-icon">📱</div>
+                            <div class="whatsapp-number">{{ number }}</div>
+                        </a>
+                        {% endfor %}
                     </div>
-                    <div class="detailed-step-content">
-                        <p>Transfer your chosen amount to our bank account:</p>
-                        <div class="bank-info-card">
-                            <div class="bank-info-row">
-                                <span class="bank-label">Bank Name:</span>
-                                <span class="bank-value">{{ bank_details.bank_name }}</span>
-                            </div>
-                            <div class="bank-info-row">
-                                <span class="bank-label">Account Holder:</span>
-                                <span class="bank-value">{{ bank_details.account_holder }}</span>
-                            </div>
-                            <div class="bank-info-row">
-                                <span class="bank-label">Account Number:</span>
-                                <span class="bank-value highlight">{{ bank_details.account_number }}</span>
-                            </div>
-                            <div class="bank-info-row">
-                                <span class="bank-label">Linked Number:</span>
-                                <span class="bank-value">{{ bank_details.linked_number }}</span>
-                            </div>
-                        </div>
+                    <div class="important-reminder">
+                        <strong>⚠️ Important:</strong> Include the contestant's voting code (e.g., M22) in your message!
                     </div>
                 </div>
+            </div>
 
-                <div class="detailed-step">
-                    <div class="detailed-step-header">
-                        <div class="detailed-step-number">Step 3</div>
-                        <h3>Send Proof of Payment</h3>
-                    </div>
-                    <div class="detailed-step-content">
-                        <p>WhatsApp your proof of payment to one of our numbers:</p>
-                        <div class="whatsapp-contacts">
-                            {% for number in contact_info.whatsapp %}
-                            <a href="https://wa.me/27{{ number[1:] }}" class="whatsapp-contact-card">
-                                <div class="whatsapp-icon">📱</div>
-                                <div class="whatsapp-number">{{ number }}</div>
-                            </a>
-                            {% endfor %}
-                        </div>
-                        <div class="important-reminder">
-                            <strong>⚠️ Important:</strong> Include the contestant's voting code (e.g., M22) in your message!
-                        </div>
-                    </div>
+            <div class="detailed-step">
+                <div class="detailed-step-header">
+                    <div class="detailed-step-number">Step 4</div>
+                    <h3>Votes Will Be Added</h3>
                 </div>
-
-                <div class="detailed-step">
-                    <div class="detailed-step-header">
-                        <div class="detailed-step-number">Step 4</div>
-                        <h3>Votes Will Be Added</h3>
-                    </div>
-                    <div class="detailed-step-content">
-                        <p>Once we verify your payment, your votes will be added to your chosen contestant's total. Keep voting until the last day!</p>
-                        <div class="deadline-reminder">
-                            <div class="deadline-icon">📅</div>
-                            <div class="deadline-text">
-                                <strong>Closing Date:</strong>
-                                <span>30 April 2026</span>
-                            </div>
+                <div class="detailed-step-content">
+                    <p>Once we verify your payment, your votes will be added to your chosen contestant's total. Keep voting until the last day!</p>
+                    <div class="deadline-reminder">
+                        <div class="deadline-icon">📅</div>
+                        <div class="deadline-text">
+                            <strong>Closing Date:</strong>
+                            <span>30 April 2026</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="faq-section">
-        <div class="container">
-            <h2 class="section-title">Frequently Asked Questions</h2>
+<section class="faq-section">
+    <div class="container">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        
+        <div class="faq-grid">
+            <div class="faq-card">
+                <h3>How do I become a finalist?</h3>
+                <p>Contestants need to reach 400 votes to qualify as finalists. Keep encouraging your supporters to vote!</p>
+            </div>
             
-            <div class="faq-grid">
-                <div class="faq-card">
-                    <h3>How do I become a finalist?</h3>
-                    <p>Contestants need to reach 400 votes to qualify as finalists. Keep encouraging your supporters to vote!</p>
-                </div>
-                
-                <div class="faq-card">
-                    <h3>Can I vote multiple times?</h3>
-                    <p>Yes! You can purchase as many voting packages as you want to support your favorite contestant.</p>
-                </div>
-                
-                <div class="faq-card">
-                    <h3>When will votes be added?</h3>
-                    <p>Votes are typically added within 24 hours of payment verification. Please be patient during busy periods.</p>
-                </div>
-                
-                <div class="faq-card">
-                    <h3>What if I made a mistake?</h3>
-                    <p>Contact us immediately via WhatsApp if you sent payment to the wrong reference or made an error.</p>
-                </div>
+            <div class="faq-card">
+                <h3>Can I vote multiple times?</h3>
+                <p>Yes! You can purchase as many voting packages as you want to support your favorite contestant.</p>
+            </div>
+            
+            <div class="faq-card">
+                <h3>When will votes be added?</h3>
+                <p>Votes are typically added within 24 hours of payment verification. Please be patient during busy periods.</p>
+            </div>
+            
+            <div class="faq-card">
+                <h3>What if I made a mistake?</h3>
+                <p>Contact us immediately via WhatsApp if you sent payment to the wrong reference or made an error.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Ready to Vote?</h2>
-                <p>Choose your favorite contestant and help them win!</p>
-                <a href="{{ url_for('gallery') }}" class="btn btn-primary btn-large">View Contestants</a>
-            </div>
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Vote?</h2>
+            <p>Choose your favorite contestant and help them win!</p>
+            <a href="{{ url_for('gallery') }}" class="btn btn-primary btn-large">View Contestants</a>
         </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <div class="logo-crown">👑</div>
-                    <span>Miss Gorgeous Hearts PTA</span>
-                </div>
-                <p class="footer-tagline">Real Queens Fix Each Other's Crowns</p>
-                <p class="footer-copyright">&copy; 2026 Miss Gorgeous Hearts Pretoria. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
-</html>
+    </div>
+</section>
+{% endblock %}

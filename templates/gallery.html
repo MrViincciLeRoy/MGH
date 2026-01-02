@@ -1,117 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contestants Gallery - Miss Gorgeous Hearts Pretoria 2026</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="stars"></div>
-    <div class="sparkles"></div>
-    
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <div class="logo">
-                    <div class="logo-crown">👑</div>
-                    <span>Miss Gorgeous Hearts</span>
-                </div>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('gallery') }}" class="active">Contestants</a></li>
-                <li><a href="{{ url_for('how_to_vote') }}">How to Vote</a></li>
-                <li><a href="{{ url_for('index') }}#contact">Contact</a></li>
-            </ul>
+{% extends "base.html" %}
+
+{% block title %}Contestants Gallery - Miss Gorgeous Hearts Pretoria 2026{% endblock %}
+
+{% block nav_gallery %}active{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title">Our Contestants</h1>
+        <p class="page-subtitle">Vote for your favorite and help them become a finalist</p>
+    </div>
+</section>
+
+<section class="gallery-section">
+    <div class="container">
+        <div class="gallery-filters">
+            <button class="filter-btn active" data-filter="all">All Contestants</button>
+            <button class="filter-btn" data-filter="semi-finalist">Semi-Finalists</button>
         </div>
-    </nav>
 
-    <section class="page-header">
-        <div class="container">
-            <h1 class="page-title">Our Contestants</h1>
-            <p class="page-subtitle">Vote for your favorite and help them become a finalist</p>
-        </div>
-    </section>
-
-    <section class="gallery-section">
-        <div class="container">
-            <div class="gallery-filters">
-                <button class="filter-btn active" data-filter="all">All Contestants</button>
-                <button class="filter-btn" data-filter="semi-finalist">Semi-Finalists</button>
-            </div>
-
-            <div class="contestants-gallery">
-                {% for contestant in contestants %}
-                {% set vote_percentage = [((contestant.votes / 400) * 100), 100]|min %}
-                <div class="gallery-card" data-status="{{ contestant.status|lower|replace(' ', '-') }}">
-                    <div class="gallery-image-wrapper">
-                        <img src="{{ url_for('static', filename='images/' + contestant.image) }}" 
-                             alt="{{ contestant.name }}"
-                             onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
-                        <div class="gallery-overlay">
-                            <div class="gallery-overlay-content">
-                                <h3>{{ contestant.name }}</h3>
-                                <p class="gallery-ref">{{ contestant.id }}</p>
-                                <a href="{{ url_for('vote_page', contestant_id=contestant.id) }}" class="btn btn-primary">Vote Now</a>
-                            </div>
-                        </div>
-                        <div class="gallery-status-badge">{{ contestant.status }}</div>
-                    </div>
-                    <div class="gallery-info">
-                        <h3 class="gallery-name">{{ contestant.name }}</h3>
-                        <p class="gallery-reference">Reference: {{ contestant.id }}</p>
-                        <div class="gallery-votes">
-                            <div class="votes-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: {{ vote_percentage }}%"></div>
-                                </div>
-                                <div class="progress-text">
-                                    <span class="current-votes">{{ contestant.votes }}</span> / 
-                                    <span class="target-votes">400 votes</span>
-                                </div>
-                            </div>
-                            <p class="finalist-status">
-                                {% if contestant.votes >= 400 %}
-                                ✓ Finalist Qualified
-                                {% else %}
-                                {{ 400 - contestant.votes }} votes to finalist
-                                {% endif %}
-                            </p>
+        <div class="contestants-gallery">
+            {% for contestant in contestants %}
+            {% set vote_percentage = [((contestant.votes / 400) * 100), 100]|min %}
+            <div class="gallery-card" data-status="{{ contestant.status|lower|replace(' ', '-') }}">
+                <div class="gallery-image-wrapper">
+                    <img src="{{ url_for('static', filename='images/' + contestant.image) }}" 
+                         alt="{{ contestant.name }}"
+                         onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
+                    <div class="gallery-overlay">
+                        <div class="gallery-overlay-content">
+                            <h3>{{ contestant.name }}</h3>
+                            <p class="gallery-ref">{{ contestant.id }}</p>
+                            <a href="{{ url_for('vote_page', contestant_id=contestant.id) }}" class="btn btn-primary">Vote Now</a>
                         </div>
                     </div>
+                    <div class="gallery-status-badge">{{ contestant.status }}</div>
                 </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Want to Join the Competition?</h2>
-                <p>Entries are now open! No registration fee required.</p>
-                <a href="https://wa.me/27673083980" class="btn btn-primary btn-large">Enter Now via WhatsApp</a>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <div class="logo-crown">👑</div>
-                    <span>Miss Gorgeous Hearts PTA</span>
+                <div class="gallery-info">
+                    <h3 class="gallery-name">{{ contestant.name }}</h3>
+                    <p class="gallery-reference">Reference: {{ contestant.id }}</p>
+                    <div class="gallery-votes">
+                        <div class="votes-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ vote_percentage }}%"></div>
+                            </div>
+                            <div class="progress-text">
+                                <span class="current-votes">{{ contestant.votes }}</span> / 
+                                <span class="target-votes">400 votes</span>
+                            </div>
+                        </div>
+                        <p class="finalist-status">
+                            {% if contestant.votes >= 400 %}
+                            ✓ Finalist Qualified
+                            {% else %}
+                            {{ 400 - contestant.votes }} votes to finalist
+                            {% endif %}
+                        </p>
+                    </div>
                 </div>
-                <p class="footer-tagline">Real Queens Fix Each Other's Crowns</p>
-                <p class="footer-copyright">&copy; 2026 Miss Gorgeous Hearts Pretoria. All rights reserved.</p>
             </div>
+            {% endfor %}
         </div>
-    </footer>
+    </div>
+</section>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
-</html>
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Want to Join the Competition?</h2>
+            <p>Entries are now open! No registration fee required.</p>
+            <a href="https://wa.me/27673083980" class="btn btn-primary btn-large">Enter Now via WhatsApp</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

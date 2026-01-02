@@ -1,349 +1,301 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miss Gorgeous Hearts Pretoria 2026</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/new-pages-styles.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="stars"></div>
-    <div class="sparkles"></div>
-    
-    <nav class="navbar">
-        <div class="container">
-            <a href="{{ url_for('index') }}" class="logo" style="text-decoration: none;">
-                <div class="logo-crown">👑</div>
-                <span>Miss Gorgeous Hearts</span>
+{% extends "base.html" %}
+
+{% block title %}Miss Gorgeous Hearts Pretoria 2026 - Home{% endblock %}
+
+{% block nav_home %}active{% endblock %}
+
+{% block content %}
+<header class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="hero-crown">👑</div>
+        <h1 class="hero-title">Miss Gorgeous Hearts</h1>
+        <h2 class="hero-subtitle">PRETORIA 2026</h2>
+        <p class="hero-tagline">Real Queens Fix Each Other's Crowns</p>
+        <div class="hero-countdown">
+            <div class="countdown-item">
+                <span class="countdown-number">{{ days_remaining }}</span>
+                <span class="countdown-label">Days Remaining</span>
+            </div>
+            <div class="countdown-divider">•</div>
+            <div class="countdown-item">
+                <span class="countdown-number">30 April 2026</span>
+                <span class="countdown-label">Closing Date</span>
+            </div>
+        </div>
+        <a href="{{ url_for('gallery') }}" class="btn btn-primary btn-large">Vote Now</a>
+    </div>
+</header>
+
+<!-- Quick Links Section -->
+<section class="quick-links-section">
+    <div class="container">
+        <h2 class="section-title">Quick Access</h2>
+        <div class="quick-links-grid">
+            <a href="{{ url_for('leaderboard') }}" class="quick-link-card">
+                <div class="link-icon">🏆</div>
+                <h3>Leaderboard</h3>
+                <p>See current rankings and top contestants</p>
             </a>
-            <button class="nav-toggle" aria-label="Toggle navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-menu">
-                <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
-                <li><a href="{{ url_for('gallery') }}">Contestants</a></li>
-                <li><a href="{{ url_for('leaderboard') }}">Leaderboard</a></li>
-                <li><a href="{{ url_for('about') }}">About</a></li>
-                <li><a href="{{ url_for('how_to_vote') }}">How to Vote</a></li>
-                <li><a href="{{ url_for('winners') }}">Winners</a></li>
-            </ul>
-        </div>
-    </nav>
-    <div class="nav-overlay"></div>
-
-    <header class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <div class="hero-crown">👑</div>
-            <h1 class="hero-title">Miss Gorgeous Hearts</h1>
-            <h2 class="hero-subtitle">PRETORIA 2026</h2>
-            <p class="hero-tagline">Real Queens Fix Each Other's Crowns</p>
-            <div class="hero-countdown">
-                <div class="countdown-item">
-                    <span class="countdown-number">{{ days_remaining }}</span>
-                    <span class="countdown-label">Days Remaining</span>
-                </div>
-                <div class="countdown-divider">•</div>
-                <div class="countdown-item">
-                    <span class="countdown-number">30 April 2026</span>
-                    <span class="countdown-label">Closing Date</span>
-                </div>
-            </div>
-            <a href="{{ url_for('gallery') }}" class="btn btn-primary btn-large">Vote Now</a>
-        </div>
-    </header>
-
-    <!-- Quick Links Section -->
-    <section class="quick-links-section">
-        <div class="container">
-            <h2 class="section-title">Quick Access</h2>
-            <div class="quick-links-grid">
-                <a href="{{ url_for('leaderboard') }}" class="quick-link-card">
-                    <div class="link-icon">🏆</div>
-                    <h3>Leaderboard</h3>
-                    <p>See current rankings and top contestants</p>
-                </a>
-                <a href="{{ url_for('gallery') }}" class="quick-link-card">
-                    <div class="link-icon">👑</div>
-                    <h3>Contestants</h3>
-                    <p>View all contestants and their profiles</p>
-                </a>
-                <a href="{{ url_for('about') }}" class="quick-link-card">
-                    <div class="link-icon">ℹ️</div>
-                    <h3>About Us</h3>
-                    <p>Learn about Miss Gorgeous Hearts</p>
-                </a>
-                <a href="{{ url_for('how_to_vote') }}" class="quick-link-card">
-                    <div class="link-icon">🗳️</div>
-                    <h3>How to Vote</h3>
-                    <p>Step-by-step voting guide</p>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section class="about-section">
-        <div class="container">
-            <h2 class="section-title">About the Pageant</h2>
-            <div class="about-content">
-                <p>Miss Gorgeous Hearts Pretoria 2026 is more than just a beauty pageant – it's a celebration of inner beauty, confidence, and empowerment. We believe that real queens fix each other's crowns, and we're looking for young women who embody grace, compassion, and strength.</p>
-                <div class="about-features">
-                    <div class="feature-card">
-                        <div class="feature-icon">🏆</div>
-                        <h3>Amazing Prizes</h3>
-                        <p>Gorgeous crowns, stunning sashes, cash prizes, trophies, medals & photoshoots</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">✨</div>
-                        <h3>No Registration Fee</h3>
-                        <p>Entries are completely free with no hidden costs</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">💎</div>
-                        <h3>Ages 5-25</h3>
-                        <p>Open to young queens from diverse backgrounds</p>
-                    </div>
-                </div>
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="{{ url_for('about') }}" class="btn btn-secondary">Learn More About Us</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Top Contestants Preview -->
-    {% if top_contestants and top_contestants|length > 0 %}
-    <section class="top-contestants-section">
-        <div class="container">
-            <h2 class="section-title">Current Top Contestants</h2>
-            <p class="section-subtitle">Leading the race to the crown</p>
-            
-            <div class="top-contestants-grid">
-                {% for contestant in top_contestants %}
-                <div class="top-contestant-card">
-                    <div class="rank-badge-home">
-                        {% if loop.index == 1 %}
-                        🥇 #{{ loop.index }}
-                        {% elif loop.index == 2 %}
-                        🥈 #{{ loop.index }}
-                        {% elif loop.index == 3 %}
-                        🥉 #{{ loop.index }}
-                        {% endif %}
-                    </div>
-                    <div class="contestant-image-wrapper">
-                        <img src="{{ url_for('static', filename='images/' + contestant.image) }}" 
-                             alt="{{ contestant.name }}"
-                             onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
-                        <div class="contestant-status">{{ contestant.status }}</div>
-                    </div>
-                    <div class="contestant-info">
-                        <h3 class="contestant-name">{{ contestant.name }}</h3>
-                        <p class="contestant-id">Reference: {{ contestant.id }}</p>
-                        <div class="contestant-votes">
-                            <span class="votes-count">{{ "{:,}".format(contestant.votes) }}</span>
-                            <span class="votes-label">Total Votes</span>
-                        </div>
-                        <div class="contestant-actions">
-                            <a href="{{ url_for('contestant_profile', contestant_id=contestant.id) }}" 
-                               class="btn btn-secondary btn-small-home">View Profile</a>
-                            <a href="{{ url_for('vote_page', contestant_id=contestant.id) }}" 
-                               class="btn btn-primary btn-small-home">Vote Now</a>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            
-            <div class="view-all-section">
-                <a href="{{ url_for('leaderboard') }}" class="btn btn-primary btn-large">View Full Leaderboard</a>
-            </div>
-        </div>
-    </section>
-    {% endif %}
-
-    <section class="contestants-section">
-        <div class="container">
-            <h2 class="section-title">Meet Our Contestants</h2>
-            <p class="section-subtitle">Support your favorite contestant by casting your vote</p>
-            
-            <div class="contestants-grid">
-                {% for contestant in contestants[:6] %}
-                <div class="contestant-card">
-                    <div class="contestant-image-wrapper">
-                        <img src="{{ url_for('static', filename='images/' + contestant.image) }}" 
-                             alt="{{ contestant.name }}"
-                             onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
-                        <div class="contestant-status">{{ contestant.status }}</div>
-                    </div>
-                    <div class="contestant-info">
-                        <h3 class="contestant-name">{{ contestant.name }}</h3>
-                        <p class="contestant-id">Reference: {{ contestant.id }}</p>
-                        <div class="contestant-votes">
-                            <span class="votes-count">{{ "{:,}".format(contestant.votes) }}</span>
-                            <span class="votes-label">Total Votes</span>
-                        </div>
-                        <a href="{{ url_for('vote_page', contestant_id=contestant.id) }}" class="btn btn-secondary">Vote for Me!</a>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            
-            <div class="view-all-section">
-                <a href="{{ url_for('gallery') }}" class="btn btn-primary btn-large">View All Contestants</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="voting-section">
-        <div class="container">
-            <h2 class="section-title">Voting Packages</h2>
-            <p class="section-subtitle">Choose your preferred voting package and support your favorite contestant</p>
-            
-            <div class="packages-grid">
-                {% for key, package in vote_packages.items() %}
-                <div class="package-card {% if key == '300' %}package-featured{% endif %}">
-                    {% if key == '300' %}
-                    <div class="package-badge">Best Value</div>
-                    {% endif %}
-                    <div class="package-price">R{{ package.price }}</div>
-                    <div class="package-votes">{{ package.votes }} Votes</div>
-                    <div class="package-per-vote">R{{ "%.2f"|format(package.price / package.votes) }} per vote</div>
-                </div>
-                {% endfor %}
-            </div>
-
-            <div class="payment-info">
-                <h3>Bank Details</h3>
-                <div class="bank-details-grid">
-                    <div class="bank-detail">
-                        <span class="detail-label">Bank Name:</span>
-                        <span class="detail-value">{{ bank_details.bank_name }}</span>
-                    </div>
-                    <div class="bank-detail">
-                        <span class="detail-label">Account Holder:</span>
-                        <span class="detail-value">{{ bank_details.account_holder }}</span>
-                    </div>
-                    <div class="bank-detail">
-                        <span class="detail-label">Account Number:</span>
-                        <span class="detail-value">{{ bank_details.account_number }}</span>
-                    </div>
-                    <div class="bank-detail">
-                        <span class="detail-label">Linked Number:</span>
-                        <span class="detail-value">{{ bank_details.linked_number }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="how-to-vote-quick">
+            <a href="{{ url_for('gallery') }}" class="quick-link-card">
+                <div class="link-icon">👑</div>
+                <h3>Contestants</h3>
+                <p>View all contestants and their profiles</p>
+            </a>
+            <a href="{{ url_for('about') }}" class="quick-link-card">
+                <div class="link-icon">ℹ️</div>
+                <h3>About Us</h3>
+                <p>Learn about Miss Gorgeous Hearts</p>
+            </a>
+            <a href="{{ url_for('how_to_vote') }}" class="quick-link-card">
+                <div class="link-icon">🗳️</div>
                 <h3>How to Vote</h3>
-                <div class="steps-grid">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <p>Choose your vote bundle</p>
+                <p>Step-by-step voting guide</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="container">
+        <h2 class="section-title">About the Pageant</h2>
+        <div class="about-content">
+            <p>Miss Gorgeous Hearts Pretoria 2026 is more than just a beauty pageant – it's a celebration of inner beauty, confidence, and empowerment. We believe that real queens fix each other's crowns, and we're looking for young women who embody grace, compassion, and strength.</p>
+            <div class="about-features">
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Amazing Prizes</h3>
+                    <p>Gorgeous crowns, stunning sashes, cash prizes, trophies, medals & photoshoots</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>No Registration Fee</h3>
+                    <p>Entries are completely free with no hidden costs</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💎</div>
+                    <h3>Ages 5-25</h3>
+                    <p>Open to young queens from diverse backgrounds</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="{{ url_for('about') }}" class="btn btn-secondary">Learn More About Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Top Contestants Preview -->
+{% if top_contestants and top_contestants|length > 0 %}
+<section class="top-contestants-section">
+    <div class="container">
+        <h2 class="section-title">Current Top Contestants</h2>
+        <p class="section-subtitle">Leading the race to the crown</p>
+        
+        <div class="top-contestants-grid">
+            {% for contestant in top_contestants %}
+            <div class="top-contestant-card">
+                <div class="rank-badge-home">
+                    {% if loop.index == 1 %}
+                    🥇 #{{ loop.index }}
+                    {% elif loop.index == 2 %}
+                    🥈 #{{ loop.index }}
+                    {% elif loop.index == 3 %}
+                    🥉 #{{ loop.index }}
+                    {% endif %}
+                </div>
+                <div class="contestant-image-wrapper">
+                    <img src="{{ url_for('static', filename='images/' + contestant.image) }}" 
+                         alt="{{ contestant.name }}"
+                         onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
+                    <div class="contestant-status">{{ contestant.status }}</div>
+                </div>
+                <div class="contestant-info">
+                    <h3 class="contestant-name">{{ contestant.name }}</h3>
+                    <p class="contestant-id">Reference: {{ contestant.id }}</p>
+                    <div class="contestant-votes">
+                        <span class="votes-count">{{ "{:,}".format(contestant.votes) }}</span>
+                        <span class="votes-label">Total Votes</span>
                     </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <p>Make payment to bank details</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <p>WhatsApp proof of payment</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">4</div>
-                        <p>Votes will be added</p>
+                    <div class="contestant-actions">
+                        <a href="{{ url_for('contestant_profile', contestant_id=contestant.id) }}" 
+                           class="btn btn-secondary btn-small-home">View Profile</a>
+                        <a href="{{ url_for('vote_page', contestant_id=contestant.id) }}" 
+                           class="btn btn-primary btn-small-home">Vote Now</a>
                     </div>
                 </div>
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="{{ url_for('how_to_vote') }}" class="btn btn-secondary">Detailed Voting Guide</a>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="view-all-section">
+            <a href="{{ url_for('leaderboard') }}" class="btn btn-primary btn-large">View Full Leaderboard</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="contestants-section">
+    <div class="container">
+        <h2 class="section-title">Meet Our Contestants</h2>
+        <p class="section-subtitle">Support your favorite contestant by casting your vote</p>
+        
+        <div class="contestants-grid">
+            {% for contestant in contestants[:6] %}
+            <div class="contestant-card">
+                <div class="contestant-image-wrapper">
+                    <img src="{{ url_for('static', filename='images/' + contestant.image) }}" 
+                         alt="{{ contestant.name }}"
+                         onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
+                    <div class="contestant-status">{{ contestant.status }}</div>
+                </div>
+                <div class="contestant-info">
+                    <h3 class="contestant-name">{{ contestant.name }}</h3>
+                    <p class="contestant-id">Reference: {{ contestant.id }}</p>
+                    <div class="contestant-votes">
+                        <span class="votes-count">{{ "{:,}".format(contestant.votes) }}</span>
+                        <span class="votes-label">Total Votes</span>
+                    </div>
+                    <a href="{{ url_for('vote_page', contestant_id=contestant.id) }}" class="btn btn-secondary">Vote for Me!</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="view-all-section">
+            <a href="{{ url_for('gallery') }}" class="btn btn-primary btn-large">View All Contestants</a>
+        </div>
+    </div>
+</section>
+
+<section class="voting-section">
+    <div class="container">
+        <h2 class="section-title">Voting Packages</h2>
+        <p class="section-subtitle">Choose your preferred voting package and support your favorite contestant</p>
+        
+        <div class="packages-grid">
+            {% for key, package in vote_packages.items() %}
+            <div class="package-card {% if key == '300' %}package-featured{% endif %}">
+                {% if key == '300' %}
+                <div class="package-badge">Best Value</div>
+                {% endif %}
+                <div class="package-price">R{{ package.price }}</div>
+                <div class="package-votes">{{ package.votes }} Votes</div>
+                <div class="package-per-vote">R{{ "%.2f"|format(package.price / package.votes) }} per vote</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="payment-info">
+            <h3>Bank Details</h3>
+            <div class="bank-details-grid">
+                <div class="bank-detail">
+                    <span class="detail-label">Bank Name:</span>
+                    <span class="detail-value">{{ bank_details.bank_name }}</span>
+                </div>
+                <div class="bank-detail">
+                    <span class="detail-label">Account Holder:</span>
+                    <span class="detail-value">{{ bank_details.account_holder }}</span>
+                </div>
+                <div class="bank-detail">
+                    <span class="detail-label">Account Number:</span>
+                    <span class="detail-value">{{ bank_details.account_number }}</span>
+                </div>
+                <div class="bank-detail">
+                    <span class="detail-label">Linked Number:</span>
+                    <span class="detail-value">{{ bank_details.linked_number }}</span>
                 </div>
             </div>
         </div>
-    </section>
 
-    <section class="how-to-enter-section">
-        <div class="container">
-            <h2 class="section-title">How to Enter</h2>
-            <div class="entry-grid">
-                <div class="entry-steps">
-                    <div class="entry-step">
-                        <div class="step-number">1</div>
-                        <p>Send us a message on WhatsApp</p>
-                    </div>
-                    <div class="entry-step">
-                        <div class="step-number">2</div>
-                        <p>Request entry form</p>
-                    </div>
-                    <div class="entry-step">
-                        <div class="step-number">3</div>
-                        <p>Fill in entry form</p>
-                    </div>
+        <div class="how-to-vote-quick">
+            <h3>How to Vote</h3>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <p>Choose your vote bundle</p>
                 </div>
-                <div class="entry-requirements">
-                    <h3>Requirements</h3>
-                    <ul>
-                        <li>Ages: 5-25 years</li>
-                        <li>Must reach 400 votes to be a finalist</li>
-                        <li>No experience required</li>
-                    </ul>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <p>Make payment to bank details</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <p>WhatsApp proof of payment</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <p>Votes will be added</p>
                 </div>
             </div>
-            <div class="entries-open">
-                <span class="entries-badge">Entries are now open!</span>
-                <p>No registration fee required</p>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="{{ url_for('how_to_vote') }}" class="btn btn-secondary">Detailed Voting Guide</a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="contact-section" id="contact">
-        <div class="container">
-            <h2 class="section-title">Get in Touch</h2>
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <div class="contact-icon">📱</div>
-                    <h3>WhatsApp</h3>
-                    {% for number in contact_info.whatsapp %}
-                    <a href="https://wa.me/27{{ number[1:] }}">{{ number }}</a>
-                    {% endfor %}
+<section class="how-to-enter-section">
+    <div class="container">
+        <h2 class="section-title">How to Enter</h2>
+        <div class="entry-grid">
+            <div class="entry-steps">
+                <div class="entry-step">
+                    <div class="step-number">1</div>
+                    <p>Send us a message on WhatsApp</p>
                 </div>
-                <div class="contact-card">
-                    <div class="contact-icon">📘</div>
-                    <h3>Facebook</h3>
-                    <p>{{ contact_info.facebook }}</p>
+                <div class="entry-step">
+                    <div class="step-number">2</div>
+                    <p>Request entry form</p>
                 </div>
-                <div class="contact-card">
-                    <div class="contact-icon">📸</div>
-                    <h3>Instagram</h3>
-                    <p>@{{ contact_info.instagram }}</p>
-                </div>
-                <div class="contact-card">
-                    <div class="contact-icon">🎵</div>
-                    <h3>TikTok</h3>
-                    <p>@{{ contact_info.tiktok }}</p>
+                <div class="entry-step">
+                    <div class="step-number">3</div>
+                    <p>Fill in entry form</p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <div class="logo-crown">👑</div>
-                    <span>Miss Gorgeous Hearts PTA</span>
-                </div>
-                <p class="footer-tagline">Real Queens Fix Each Other's Crowns</p>
-                <p class="footer-copyright">&copy; 2026 Miss Gorgeous Hearts Pretoria. All rights reserved.</p>
+            <div class="entry-requirements">
+                <h3>Requirements</h3>
+                <ul>
+                    <li>Ages: 5-25 years</li>
+                    <li>Must reach 400 votes to be a finalist</li>
+                    <li>No experience required</li>
+                </ul>
             </div>
         </div>
-    </footer>
+        <div class="entries-open">
+            <span class="entries-badge">Entries are now open!</span>
+            <p>No registration fee required</p>
+        </div>
+    </div>
+</section>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
-</html>
+<section class="contact-section" id="contact">
+    <div class="container">
+        <h2 class="section-title">Get in Touch</h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">📱</div>
+                <h3>WhatsApp</h3>
+                {% for number in contact_info.whatsapp %}
+                <a href="https://wa.me/27{{ number[1:] }}">{{ number }}</a>
+                {% endfor %}
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">📘</div>
+                <h3>Facebook</h3>
+                <p>{{ contact_info.facebook }}</p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">📸</div>
+                <h3>Instagram</h3>
+                <p>@{{ contact_info.instagram }}</p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">🎵</div>
+                <h3>TikTok</h3>
+                <p>@{{ contact_info.tiktok }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

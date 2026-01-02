@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Miss Gorgeous Hearts Pretoria 2026{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/new-pages-styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="stars"></div>
+    <div class="sparkles"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('index') }}" class="logo" style="text-decoration: none;">
+                <div class="logo-crown">👑</div>
+                <span>Miss Gorgeous Hearts</span>
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('index') }}" class="{% block nav_home %}{% endblock %}">Home</a></li>
+                <li><a href="{{ url_for('gallery') }}" class="{% block nav_gallery %}{% endblock %}">Contestants</a></li>
+                <li><a href="{{ url_for('leaderboard') }}" class="{% block nav_leaderboard %}{% endblock %}">Leaderboard</a></li>
+                <li><a href="{{ url_for('about') }}" class="{% block nav_about %}{% endblock %}">About</a></li>
+                <li><a href="{{ url_for('how_to_vote') }}" class="{% block nav_vote %}{% endblock %}">How to Vote</a></li>
+                <li><a href="{{ url_for('winners') }}" class="{% block nav_winners %}{% endblock %}">Winners</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="nav-overlay"></div>
+
+    <!-- Main Content -->
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-crown">👑</div>
+                    <span>Miss Gorgeous Hearts PTA</span>
+                </div>
+                <p class="footer-tagline">Real Queens Fix Each Other's Crowns</p>
+                <p class="footer-copyright">&copy; 2026 Miss Gorgeous Hearts Pretoria. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
