@@ -239,16 +239,6 @@ def get_contestants():
     return jsonify(contestants)
 
 @app.route('/api/vote', methods=['POST'])
-def                         vote_packages=VOTE_PACKAGES,
-                         bank_details=BANK_DETAILS,
-                         contact_info=CONTACT_INFO)
-
-@app.route('/api/contestants')
-def get_contestants():
-    contestants = load_contestants()
-    return jsonify(contestants)
-
-@app.route('/api/vote', methods=['POST'])
 def submit_vote():
     data = request.json
     contestant_id = data.get('contestant_id')
@@ -297,8 +287,6 @@ def admin():
                                  error='Incorrect password')
     
     return render_template('admin.html', authenticated=False)
-
-# Add this route to your app.py file
 
 @app.route('/winners')
 def winners():
