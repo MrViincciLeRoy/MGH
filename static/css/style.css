@@ -3899,3 +3899,501 @@ section {
 .top-contestant-card:nth-child(3) {
     border-color: #CD7F32;
 }
+/* ========================================
+   WINNERS PAGE STYLES
+   Add this to your style.css or include as separate file
+======================================== */
+
+/* Winners Hero */
+.winners-hero {
+    padding: 10rem 0 5rem;
+    background: linear-gradient(135deg, var(--black) 0%, var(--dark-bg) 100%);
+    text-align: center;
+}
+
+.hall-of-fame-icon {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Winners Section */
+.winners-section {
+    padding: 5rem 0;
+    background: var(--black);
+}
+
+.winner-timeline {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Winner Card */
+.winner-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    transition: all 0.3s;
+}
+
+.winner-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
+    border-color: var(--gold);
+}
+
+.winner-card-grid {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 0;
+}
+
+/* Winner Image Section */
+.winner-image-section {
+    position: relative;
+    min-height: 500px;
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.winner-image-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.winner-year-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--gold);
+    color: var(--black);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-family: 'Cinzel', serif;
+    z-index: 10;
+    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
+}
+
+.winner-crown-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 3.5rem;
+    z-index: 10;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 5px 10px rgba(212, 175, 55, 0.5));
+}
+
+/* Winner Content */
+.winner-content {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.winner-title-section {
+    margin-bottom: 2rem;
+}
+
+.winner-name {
+    font-size: 2.5rem;
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.winner-title {
+    font-size: 1.2rem;
+    color: var(--light-gold);
+    margin-bottom: 0;
+    font-style: italic;
+}
+
+/* Winner Stats */
+.winner-stats {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 10px;
+    flex-wrap: wrap;
+}
+
+.winner-stats .stat-item {
+    text-align: center;
+    flex: 1;
+    min-width: 100px;
+}
+
+.winner-stats .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.winner-stats .stat-label {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+}
+
+/* Winner Quote */
+.winner-quote {
+    background: rgba(212, 175, 55, 0.05);
+    border-left: 4px solid var(--gold);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    font-style: italic;
+    color: var(--text-light);
+    line-height: 1.6;
+    position: relative;
+}
+
+.winner-quote::before {
+    content: '"';
+    font-size: 3rem;
+    color: var(--gold);
+    position: absolute;
+    top: 0;
+    left: 1rem;
+    line-height: 1;
+    opacity: 0.3;
+}
+
+/* Winner Achievements */
+.winner-achievements {
+    margin-bottom: 1rem;
+}
+
+.winner-achievements h3 {
+    color: var(--gold);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.achievements-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.achievements-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--text-gray);
+    padding: 0.8rem;
+    background: rgba(212, 175, 55, 0.05);
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.achievements-list li:hover {
+    background: rgba(212, 175, 55, 0.1);
+    transform: translateX(5px);
+}
+
+.achievement-icon {
+    color: var(--gold);
+    font-size: 1.3rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* Winner Divider */
+.winner-divider {
+    height: 2px;
+    max-width: 600px;
+    margin: 3rem auto;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* Legacy Section */
+.legacy-section {
+    padding: 5rem 0;
+    background: var(--dark-bg);
+    text-align: center;
+}
+
+.legacy-content {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+}
+
+.legacy-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.legacy-stat-card {
+    background: var(--card-bg);
+    padding: 2.5rem 2rem;
+    border-radius: 15px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    transition: all 0.3s;
+}
+
+.legacy-stat-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--gold);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+}
+
+.legacy-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.legacy-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    margin-bottom: 0.5rem;
+}
+
+.legacy-label {
+    color: var(--text-gray);
+    font-size: 1rem;
+}
+
+/* CTA Buttons */
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN FOR WINNERS PAGE
+======================================== */
+
+@media (max-width: 992px) {
+    .winner-card-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .winner-image-section {
+        min-height: 400px;
+        max-height: 400px;
+    }
+    
+    .winner-content {
+        padding: 2rem;
+    }
+    
+    .winner-name {
+        font-size: 2rem;
+    }
+    
+    .winner-stats {
+        gap: 1rem;
+    }
+    
+    .legacy-stats {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .winners-hero {
+        padding: 8rem 0 3rem;
+    }
+    
+    .hall-of-fame-icon {
+        font-size: 3.5rem;
+    }
+    
+    .winner-image-section {
+        min-height: 350px;
+        max-height: 350px;
+    }
+    
+    .winner-year-badge {
+        padding: 0.6rem 1.2rem;
+        font-size: 1.1rem;
+        top: 15px;
+        left: 15px;
+    }
+    
+    .winner-crown-badge {
+        font-size: 2.5rem;
+        top: 15px;
+        right: 15px;
+    }
+    
+    .winner-content {
+        padding: 1.5rem;
+    }
+    
+    .winner-name {
+        font-size: 1.8rem;
+    }
+    
+    .winner-title {
+        font-size: 1rem;
+    }
+    
+    .winner-stats {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .winner-stats .stat-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+    
+    .winner-stats .stat-item:last-child {
+        border-bottom: none;
+    }
+    
+    .winner-stats .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    .winner-quote {
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .winner-quote::before {
+        font-size: 2rem;
+        left: 0.5rem;
+    }
+    
+    .achievements-list li {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+    
+    .achievement-icon {
+        font-size: 1rem;
+    }
+    
+    .legacy-content p {
+        font-size: 1rem !important;
+    }
+    
+    .legacy-stat-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .legacy-icon {
+        font-size: 2.5rem;
+    }
+    
+    .legacy-number {
+        font-size: 2rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        max-width: 300px;
+        margin: 2rem auto 0;
+    }
+    
+    .cta-buttons .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .hall-of-fame-icon {
+        font-size: 2.5rem;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .page-subtitle {
+        font-size: 1rem;
+    }
+    
+    .winner-image-section {
+        min-height: 300px;
+        max-height: 300px;
+    }
+    
+    .winner-name {
+        font-size: 1.5rem;
+    }
+    
+    .winner-title {
+        font-size: 0.9rem;
+    }
+    
+    .winner-stats .stat-value {
+        font-size: 1.3rem;
+    }
+    
+    .winner-achievements h3 {
+        font-size: 1.1rem;
+    }
+    
+    .legacy-number {
+        font-size: 1.8rem;
+    }
+}
+
+/* Animation for winner cards on scroll */
+.winner-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.winner-card:nth-child(1) { animation-delay: 0.1s; }
+.winner-card:nth-child(2) { animation-delay: 0.2s; }
+.winner-card:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Print styles */
+@media print {
+    .winner-card-grid {
+        grid-template-columns: 1fr;
+        page-break-inside: avoid;
+    }
+    
+    .winner-card {
+        page-break-inside: avoid;
+        margin-bottom: 2rem;
+    }
+    
+    .winners-hero,
+    .legacy-section,
+    .cta-section {
+        page-break-after: always;
+    }
+}
