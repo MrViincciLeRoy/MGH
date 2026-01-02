@@ -239,6 +239,16 @@ def get_contestants():
     return jsonify(contestants)
 
 @app.route('/api/vote', methods=['POST'])
+def                         vote_packages=VOTE_PACKAGES,
+                         bank_details=BANK_DETAILS,
+                         contact_info=CONTACT_INFO)
+
+@app.route('/api/contestants')
+def get_contestants():
+    contestants = load_contestants()
+    return jsonify(contestants)
+
+@app.route('/api/vote', methods=['POST'])
 def submit_vote():
     data = request.json
     contestant_id = data.get('contestant_id')
@@ -253,7 +263,27 @@ def submit_vote():
     
     return jsonify({'success': False, 'error': 'Contestant not found'}), 404
 
-   
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    # Simple password protection - change this password!
+    ADMIN_PASSWORD = 'gorgeoushearts2026'
+    
+    if request.method == 'POST':
+        # Check if adding votes
+        if request.form.get('authenticated') == 'true':
+            contestant_id = request.form.get('contestant_id')
+            votes_to_add = int(request.form.get('votes_to_add', 0))
+            
+            contestants = load_contestants()
+            for contestant in contestants:
+                if contestant['id'] == contestant_id:
+                    contestant['votes'] += votes_to_add
+                    save_contestants(contestants)
+                    return render_template('admin.html', 
+                                         contestants=contestants,
+                                         authenticated=True,
+                                         success=f'Successfully added {votes_to_add} votes to {contestant["name"]}!')
+        
         # Check password
         password = request.form.get('password')
         if password == ADMIN_PASSWORD:
@@ -267,6 +297,7 @@ def submit_vote():
                                  error='Incorrect password')
     
     return render_template('admin.html', authenticated=False)
+
 # Add this route to your app.py file
 
 @app.route('/winners')
