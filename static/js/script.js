@@ -1,20 +1,18 @@
 // Gallery filter functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile menu toggle
-    const navToggle = document.createElement('button');
-    navToggle.className = 'nav-toggle';
-    navToggle.innerHTML = '<span></span><span></span><span></span>';
-    navToggle.setAttribute('aria-label', 'Toggle navigation');
-    
-    const navbar = document.querySelector('.navbar .container');
+    // Mobile menu toggle - use existing button from HTML
+    const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
+    const navOverlay = document.querySelector('.nav-overlay');
     
-    if (navbar && navMenu && window.innerWidth <= 768) {
-        navbar.insertBefore(navToggle, navMenu);
-        
-        navToggle.addEventListener('click', function() {
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
             this.classList.toggle('active');
             navMenu.classList.toggle('active');
+            if (navOverlay) {
+                navOverlay.classList.toggle('active');
+            }
             document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
         });
         
@@ -24,31 +22,35 @@ document.addEventListener('DOMContentLoaded', function() {
             link.addEventListener('click', function() {
                 navToggle.classList.remove('active');
                 navMenu.classList.remove('active');
+                if (navOverlay) {
+                    navOverlay.classList.remove('active');
+                }
                 document.body.style.overflow = '';
             });
         });
         
-        // Close menu when clicking outside
+        // Close menu when clicking overlay
+        if (navOverlay) {
+            navOverlay.addEventListener('click', function() {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+        
+        // Close menu when clicking outside (on the page)
         document.addEventListener('click', function(event) {
             if (!navToggle.contains(event.target) && !navMenu.contains(event.target)) {
                 navToggle.classList.remove('active');
                 navMenu.classList.remove('active');
+                if (navOverlay) {
+                    navOverlay.classList.remove('active');
+                }
                 document.body.style.overflow = '';
             }
         });
     }
-    
-    // Re-add toggle button on window resize
-    window.addEventListener('resize', function() {
-        const existingToggle = document.querySelector('.nav-toggle');
-        if (window.innerWidth <= 768 && !existingToggle) {
-            navbar.insertBefore(navToggle, navMenu);
-        } else if (window.innerWidth > 768 && existingToggle) {
-            existingToggle.remove();
-            navMenu.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    });
     
     // Gallery filtering
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -166,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 contestants.forEach(contestant => {
                     const voteElements = document.querySelectorAll(`[data-contestant-id="${contestant.id}"] .votes-count, [data-contestant-id="${contestant.id}"] .votes-number, [data-contestant-id="${contestant.id}"] .current-votes`);
                     voteElements.forEach(el => {
-                        el.textContent = contestant.votes;
+                        el.textContent = contestant.votes.toLocaleString();
                     });
                     
                     // Update progress bars
